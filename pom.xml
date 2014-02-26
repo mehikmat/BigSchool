@@ -4,16 +4,34 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>HelloMapReduce</groupId>
-    <artifactId>HelloMapReduce</artifactId>
+    <groupId>BigSchoolMapReduce</groupId>
+    <artifactId>BigSchoolMapReduce</artifactId>
     <version>1.0</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+    <repository>
+        <id>maven.org</id>
+        <url>http://repo2.maven.org/maven2/</url>
+    </repository>
+
+    <repository>
+        <id>ClouderaMavenRepository</id>
+        <name>Cloudera Repository for Maven</name>
+        <url>https://repository.cloudera.com/content/repositories/releases/</url>
+        <layout>default</layout>
+    </repository>
+    </repositories>
 
     <dependencies>
 
     <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-core</artifactId>
-        <version>0.20.2-cdh3u0</version>
+        <version>0.20.2-cdh3u6</version>
     </dependency>
 
     </dependencies>
@@ -40,7 +58,7 @@
                     <manifest>
                         <addClasspath>true</addClasspath>
                         <classpathPrefix>lib/</classpathPrefix>
-                        <mainClass>wordcount.WordCountDriver</mainClass>
+                        <mainClass>com.bigschool.driver.App</mainClass>
                     </manifest>
                 </archive>
             </configuration>

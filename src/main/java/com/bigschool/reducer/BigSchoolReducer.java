@@ -1,4 +1,4 @@
-package wordcount;
+package com.bigschool.reducer;
 
 /**
  * Created with IntelliJ IDEA.

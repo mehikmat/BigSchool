@@ -8,6 +8,8 @@ package wordcount;
  * To change this template use File | Settings | File Templates.
 */
 
+import com.bigschool.mapper.BigSchoolMapper;
+import com.bigschool.reducer.BigSchoolReducer;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -22,13 +24,13 @@ public class App extends Configured implements Tool{
 
     public int run(String[] args) throws IOException{
         JobConf conf = new JobConf(App.class);
-        conf.setJobName("wordcount");
+        conf.setJobName("WordCount");
 
         conf.setOutputKeyClass(Text.class);
         conf.setOutputValueClass(IntWritable.class);
 
-        conf.setMapperClass(WordCountMapper.class);
-        conf.setReducerClass(WordCountReducer.class);
+        conf.setMapperClass(BigSchoolMapper.class);
+        conf.setReducerClass(BigSchoolReducer.class);
 
         conf.setInputFormat(TextInputFormat.class);
         conf.setOutputFormat(TextOutputFormat.class);
