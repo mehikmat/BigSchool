@@ -1,4 +1,4 @@
-package wordcount;
+package com.bigschool.mapper;
 
 /**
  * Created with IntelliJ IDEA.
