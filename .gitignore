@@ -1,5 +1,6 @@
 .idea
 .BigSchoolMapReduce.iml
 *.iml
+*.*~
 /target
 
