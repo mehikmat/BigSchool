@@ -22,7 +22,7 @@ $ mvn clean package
 
 $ hadoop jar target/BigSchool-1.0.jar com.bigschool.driver.App input/input.txt output/output.txt
 
-In case you get an error of type "Not valid JAR", check the jar path. It might be different from one plateform to another with mvn.
+  In case you get an error of type "Not valid JAR", check the jar path. It might be different from one plateform to another with mvn.
 
 
 Browse http://localhost:50030 for job status
