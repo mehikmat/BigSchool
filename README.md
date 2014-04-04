@@ -14,16 +14,16 @@ Prerequisites
 
 How to run
 ===============
-$ git clone https://github.com/mehikmat/BigSchoo.git
+$ git clone https://github.com/mehikmat/BigSchool.git
 
 $ cd BigSchool
 
 $ mvn clean package
 
 $ hadoop jar target/BigSchool-1.0.jar com.bigschool.driver.App input/input.txt output/output.txt
+EDIT : In case you get an error of type "Not valid JAR", check the jar path. It might be different from one plateform to another with mvn.
 
 
 Browse http://localhost:50030 for job status
-
 
 
