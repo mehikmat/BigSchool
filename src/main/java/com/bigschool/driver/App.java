@@ -1,4 +1,4 @@
-package wordcount;
+package com.bigschool.driver;
 
 /**
  * Created with IntelliJ IDEA.
