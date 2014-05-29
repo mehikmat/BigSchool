@@ -5,6 +5,16 @@ MapReduce-1 Application for processing raw data file and counting words
 
 Technologies: Cloudera Hadoop CDH3,Maven, IntelliJ IDEA
 
+###NOTE:MRv1 & MRv2 compatibility###
+```
+In general, the previous MapReduce runtime (aka MRv1) has been reused and no major surgery has been conducted on it.
+Therefore, MRv2 is able to ensure satisfactory compatibility with MRv1 applications.
+However, due to some improvements and code refactorings, a few APIs have been rendered backward-incompatible.
+
+NEW API in package: org.apache.hadoop.mapreduce;
+OLD API in package: org.apache.hadoop.mapred;
+```
+
 Prerequisites
 ===============
 1. Java-1.6
