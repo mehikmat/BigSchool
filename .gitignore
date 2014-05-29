@@ -2,5 +2,5 @@
 .BigSchoolMapReduce.iml
 *.iml
 *.*~
-/target
+target
 
