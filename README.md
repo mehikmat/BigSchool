@@ -31,7 +31,9 @@ How to run
     $ mvn clean package
 
     $ hadoop jar target/BigSchoolMapReduce-1.0.jar input/input.txt output/output.txt
+
       OR
+
     $ sh runner.sh
 
   In case you get an error of type "Not valid JAR", check the jar path. It might be different from one plateform to another with mvn.
