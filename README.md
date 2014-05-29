@@ -1,8 +1,8 @@
-BigSchool
+BigSchool [![endorse](https://api.coderwall.com/mehikmat/endorsecount.png)](https://coderwall.com/mehikmat)
 =========
-
 MapReduce Application for processing raw data file and counting words
 Technologies: Cloudera Hadoop CDH3, Cascading, Maven, IntelliJ IDEA
+Technologies: Cloudera Hadoop CDH3, Cascading, Maven, ElasticSerach, IntelliJ IDEA
 
 Prerequisites
 ===============
@@ -27,5 +27,3 @@ How to run
 
 
 Browse http://localhost:50030 for job status
-
-
