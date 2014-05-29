@@ -11,20 +11,23 @@ package com.bigschool.reducer;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reducer;
-import org.apache.hadoop.mapred.Reporter;
+import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 import java.util.Iterator;
 
-public class BigSchoolReducer extends MapReduceBase implements Reducer<Text, IntWritable, Text, IntWritable>{
-    public void reduce(Text key, Iterator<IntWritable> values, OutputCollector<Text,IntWritable> output, Reporter reporter) throws IOException {
+
+public class BigSchoolReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+    @Override
+    protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        //super.reduce(key, values, context);
         int count = 0;
-        while(values.hasNext()) {
-            count += values.next().get();
+        Iterator<IntWritable> it = values.iterator();
+
+        while (it.hasNext()) {
+            count += it.next().get();
         }
-        output.collect(key, new IntWritable(count));
+        context.write(key, new IntWritable(count));
     }
 }
