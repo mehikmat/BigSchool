@@ -27,3 +27,9 @@ How to run
 
 
 Browse http://localhost:50030 for job status
+
+REFERENCES:
+-----------
+- https://github.com/DemandCube/yarn-app
+- http://tzulitai.wordpress.com/2013/09/04/applicationmaster-yarn-applications-code-level-breakdown
+- http://tzulitai.wordpress.com/2013/08/30/yarn-applications-code-level-breakdown-client
