@@ -24,7 +24,7 @@ public class App extends Configured implements Tool{
 
     public int run(String[] args) throws IOException{
         JobConf conf = new JobConf(App.class);
-        conf.setJobName("WordCount");
+        conf.setJobName("MRv1-WordCount");
 
         conf.setOutputKeyClass(Text.class);
         conf.setOutputValueClass(IntWritable.class);
