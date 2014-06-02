@@ -28,6 +28,8 @@ How to run
 
     $ cd BigSchool
 
+    $ git checkout mr1-app
+
     $ mvn clean package
 
     $ hadoop jar target/BigSchoolMapReduce-1.0.jar input/input.txt output/output.txt
