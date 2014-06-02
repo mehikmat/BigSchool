@@ -1,12 +1,6 @@
 #!/bin/sh
-#Remove output directory if already exists
-$HADOOP_HOME/bin/hadoop fs -rmr output/output.txt
-
-#Create input directory
-$HADOOP_HOME/bin/hadoop fs -mkdir -p input
-
-#Put input data file
-$HADOOP_HOME/bin/hadoop fs -put ./data/input.txt input/
-
 #Run Job
-$HADOOP_HOME/bin/hadoop jar target/BigSchoolMapReduce-1.0.jar input/input.txt output/output.txt
+mvn clean package
+$HADOOP_HOME/bin/hdfs dfs -rm /BigSchoolYarn-1.0.jar
+$HADOOP_HOME/bin/hdfs dfs -put target/BigSchoolYarn-1.0.jar /
+$HADOOP_HOME/bin/yarn jar target/BigSchoolYarn-1.0.jar

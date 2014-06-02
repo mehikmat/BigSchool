@@ -19,17 +19,20 @@ How to run
 
     $ mvn clean package
 
-    $ hadoop jar target/BigSchoolMapReduce-1.0.jar input/input.txt output/output.txt
+    $ $HADOOP_HOME/bin/hdfs dfs -rm  /BigSchoolYarn-1.0.jar
+    $ $HADOOP_HOME/bin/hdfs dfs -put target/BigSchoolYarn-1.0.jar /
+    $ $HADOOP_HOME/bin/yarn jar target/BigSchoolYarn-1.0.jar
         OR
     $ sh runner.sh
 
   In case you get an error of type "Not valid JAR", check the jar path. It might be different from one plateform to another with mvn.
 
 
-Browse http://localhost:50030 for job status
+Browse http://localhost:8088 for job status
 
 REFERENCES:
 -----------
 - https://github.com/DemandCube/yarn-app
 - http://tzulitai.wordpress.com/2013/09/04/applicationmaster-yarn-applications-code-level-breakdown
 - http://tzulitai.wordpress.com/2013/08/30/yarn-applications-code-level-breakdown-client
+- hadoop.apache.org/docs/r2.3.0/hadoop-yarn/hadoop-yarn-site/WritingYarnApplications.html
