@@ -17,6 +17,8 @@ How to run
 
     $ cd BigSchool
 
+    $ git checkout yarn-app
+
     $ mvn clean package
 
     $ $HADOOP_HOME/bin/hdfs dfs -rm  /BigSchoolYarn-1.0.jar
