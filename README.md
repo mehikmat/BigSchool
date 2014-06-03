@@ -31,4 +31,6 @@ Browse http://localhost:8088 for job status
 
 REFERENCES:
 -----------
+- http://www.cascading.org/support/compatibility/
+- http://www.cascading.org
 
