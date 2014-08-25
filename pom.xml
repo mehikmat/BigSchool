@@ -13,34 +13,24 @@
     </properties>
 
     <repositories>
-    <repository>
-        <id>maven.org</id>
-        <url>http://repo2.maven.org/maven2/</url>
-    </repository>
+        <repository>
+            <id>maven.org</id>
+            <url>http://repo2.maven.org/maven2/</url>
+        </repository>
 
-    <repository>
-        <id>ClouderaMavenRepository</id>
-        <name>Cloudera Repository for Maven</name>
-        <url>https://repository.cloudera.com/content/repositories/releases/</url>
-        <layout>default</layout>
-    </repository>
+        <repository>
+            <id>ClouderaMavenRepository</id>
+            <name>Cloudera Repository for Maven</name>
+            <url>https://repository.cloudera.com/content/repositories/releases/</url>
+            <layout>default</layout>
+        </repository>
     </repositories>
 
     <dependencies>
 
-    <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-yarn-client</artifactId>
-        <version>2.3.0-cdh5.0.1</version>
-    </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-yarn-common</artifactId>
-            <version>2.3.0-cdh5.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-yarn-api</artifactId>
+            <artifactId>hadoop-yarn-client</artifactId>
             <version>2.3.0-cdh5.0.1</version>
         </dependency>
         <dependency>
@@ -58,7 +48,7 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
             <optional>true</optional>
-       </dependency>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -67,52 +57,52 @@
 
     </dependencies>
     <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.3.2</version>
-            <configuration>
-                <encoding>${project.build.sourceEncoding}</encoding>
-                <source>1.6</source>
-                <target>1.6</target>
-                <optimize>true</optimize>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-                <execution>
-                    <id>copy-dependencies</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                        <goal>copy-dependencies</goal>
-                    </goals>
-                    <configuration>
-                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        <overWriteReleases>false</overWriteReleases>
-                        <overWriteSnapshots>false</overWriteSnapshots>
-                        <overWriteIfNewer>true</overWriteIfNewer>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>2.3.1</version>
-            <configuration>
-                <archive>
-                    <manifest>
-                        <addClasspath>true</addClasspath>
-                        <classpathPrefix>lib/</classpathPrefix>
-                        <mainClass>com.bigschool.yarn.AppClient</mainClass>
-                    </manifest>
-                </archive>
-            </configuration>
-        </plugin>
-    </plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.bigschool.yarn.YarnAppClient</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
-    
+
 </project>
