@@ -153,6 +153,7 @@ public class SimpleAssembliesTest
                 .addTails( tails );
 
         Flow flow = new LocalFlowConnector().connect( flowDef );
+        flow.complete();
     }
 
     @Test
@@ -237,5 +238,6 @@ public class SimpleAssembliesTest
                 .addTails( tails );
 
         Flow flow = new LocalFlowConnector().connect( flowDef );
+        flow.complete();
     }
 }
