@@ -29,6 +29,16 @@ How to run
 
 Browse http://localhost:8088 for job status
 
+
+Three dependencies must be added to the project settings.
+---------------------------------------------------------
+ *  First, the fluid-api and fluid-api-runtime which contains the root Fluid class.
+ *  Second, the dependency that corresponds to the version of Cascading you wish to use.
+ *  Third, Fluid depends on Flapi. If you are using Maven/Ivy/Gradle or similar then all
+    you need to do is add the Maven repository at UnquietCode.com to your build definition
+    and the necessary Flapi jars will be included in your project.
+
+
 REFERENCES:
 -----------
 - http://www.cascading.org/support/compatibility/

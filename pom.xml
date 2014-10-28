@@ -21,6 +21,13 @@
             <id>conjars.org</id>
             <url>http://conjars.org/repo</url>
         </repository>
+        <repository>
+            <id>uqc</id>
+            <url>http://unquietcode.com/maven/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -39,7 +46,7 @@
         <dependency>
             <groupId>cascading</groupId>
             <artifactId>cascading-core</artifactId>
-            <version>2.5.3</version>
+            <version>2.5.6</version>
         </dependency>
 
         <dependency>
@@ -50,23 +57,38 @@
         <dependency>
             <groupId>cascading</groupId>
             <artifactId>cascading-platform</artifactId>
-            <version>2.5.3</version>
+            <version>2.5.6</version>
         </dependency>
         <dependency>
             <groupId>cascading</groupId>
             <artifactId>cascading-local</artifactId>
-            <version>2.5.3</version>
+            <version>2.5.6</version>
         </dependency>
         <dependency>
             <groupId>cascading</groupId>
             <artifactId>cascading-xml</artifactId>
-            <version>2.5.3</version>
+            <version>2.5.6</version>
         </dependency>
 
         <dependency>
             <groupId>cascading</groupId>
             <artifactId>cascading-hadoop</artifactId>
-            <version>2.5.3</version>
+            <version>2.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>cascading</groupId>
+            <artifactId>fluid-api</artifactId>
+            <version>1.0.0-wip-9</version>
+        </dependency>
+        <dependency>
+            <groupId>cascading</groupId>
+            <artifactId>fluid-api-runtime</artifactId>
+            <version>1.0.0-wip-9</version>
+        </dependency>
+        <dependency>
+            <groupId>cascading</groupId>
+            <artifactId>fluid-cascading25</artifactId>
+            <version>1.0.0-wip-9</version>
         </dependency>
 
         <dependency>
@@ -119,7 +141,7 @@
                     <manifest>
                         <addClasspath>true</addClasspath>
                         <classpathPrefix>lib/</classpathPrefix>
-                        <mainClass>com.bigschool.Main</mainClass>
+                        <mainClass>com.bigschool.SimpleAssembliesTest</mainClass>
                     </manifest>
                 </archive>
             </configuration>
