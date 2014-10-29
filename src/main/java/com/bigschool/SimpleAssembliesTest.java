@@ -35,11 +35,7 @@ public class SimpleAssembliesTest
                 .startBranch( "test" )
                 .each( fields( "line" ) )
                 .function(
-                        function()
-                                .RegexSplitter()
-                                .fieldDeclaration(fields( "ip" ))
-                                .patternString(";")
-                                .end()
+                        new WordSplitFunction()
                 )
                 .outgoing(fields( "ip" ))
                 .each(fields( "ip" ))
