@@ -46,4 +46,3 @@ Browse http://localhost:8088 for job status
 MapReduce App Architecture
 ----------------------------
 ![MapReduce App Architecture](/docs/map-reduce.png)
-Format: ![Alt Text](url)
