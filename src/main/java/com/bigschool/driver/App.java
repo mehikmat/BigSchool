@@ -13,11 +13,30 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 /**
- * Created with IntelliJ IDEA.
- * User: hikmat
- * Date: 3/15/13
- * Time: 1:05 PM
- * To change this template use File | Settings | File Templates.
+ * MapReduce Operations showcased here are
+ *
+ * ===============================================
+ *  MapReduce Operators
+ *  --------------------
+ *  1. Mapper
+ *  2. Reducer
+ *  3. Combiner
+ *  4. Partitioner
+ *  5. Sorting
+ *
+ *  Common MapReduce Patterns
+ *  -------------------------
+ *  1. Filtering or Grepping
+ *  2. Parsing, Conversion
+ *  3. Counting, Summing
+ *  4. Binning, Collating
+ *  5. Distributed Tasks
+ *  6. Simple Total Sorting
+ *  7. Chained Jobs
+ *  ==============================================
+ *
+ * @author Hikmat Dhamee
+ * @email me.hemant.available@gmail.com
  */
 public class App {
 
