@@ -6,6 +6,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.types.Pair;
+import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,24 +28,24 @@ public class BigSchoolMapperTest {
 
     @Test
     public void testMapper(){
-        mapDriver.withInput(new LongWritable(), new Text("hikmat"));
+        mapDriver
+        .withInput(new LongWritable(), new Text("hikmat"))
         // mapDriver.withOutput(new Text("hikmat"), new IntWritable(1));
-        mapDriver.withOutput(new Pair<Text, IntWritable>(new Text("hikmat"),new IntWritable(1)));
-        mapDriver.runTest();
+        .withOutput(new Pair<Text, IntWritable>(new Text("hikmat"),new IntWritable(1)))
+        .runTest();
     }
 
     @Test
      public void testMultipleOutputs() throws IOException {
-        mapDriver.withInput(new LongWritable(), new Text("hikmat singh dhamee"));
+        mapDriver.withInput(new LongWritable(), new Text("hikmat singh dhamee hikmat singh dhamee"));
         final List<Pair<Text, IntWritable>> result = mapDriver.run();
 
         final Pair<Text, IntWritable> r1 = new Pair<Text, IntWritable>(new Text("hikmat"), new IntWritable(1));
         final Pair<Text, IntWritable> r2 = new Pair<Text, IntWritable>(new Text("singh"), new IntWritable(1));
 
-
-        assertThat(result)
-                .isNotNull()
-                .hasSize(3)
-                .contains(r1, r2);
+       Assertions.assertThat(result)
+               .isNotNull()
+               .hasSize(6)
+               .contains(r1, r2);
     }
 }

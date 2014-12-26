@@ -10,7 +10,12 @@ import org.junit.runner.notification.Failure;
  */
 public class BigSchoolTestRunner{
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(BigSchoolMapperTest.class,BigSchoolReduceTest.class);
+
+        Result result = JUnitCore.runClasses(
+                BigSchoolMapperTest.class,
+                BigSchoolReduceTest.class,
+                CombinerPartitionerTest.class);
+
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
         }
