@@ -47,7 +47,7 @@ public class MapReduceOperationTest {
 
         mapReduceDriver.setKeyGroupingComparator( new CustomKeyOrderComparator());
 
-      // mapReduceDriver.setKeyOrderComparator(new CustomKeyOrderComparator());
+        mapReduceDriver.setKeyOrderComparator(new CustomKeyOrderComparator());
     }
 
     // Test sorting by framework

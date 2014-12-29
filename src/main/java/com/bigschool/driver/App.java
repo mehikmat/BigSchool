@@ -89,13 +89,27 @@ public class App {
         job.setJobName("MRv2-WordCount");
 
         /**
+         * Sorting Comparators
+         * ==================
+         * Useful link for secondary sort implementation by means of composite primary key {natural_key,secondary_key}
          * http://vangjee.wordpress.com/2012/03/20/secondary-sorting-aka-sorting-values-in-hadoops-mapreduce-programming-paradigm/
+         * Steps:
+         *  1. Write custom partitioner and use natural key for partitioning (group by key)
+               (multiple unique keys may go to same reducer). So
+            2. Write custom natural key grouping comparator (primary sort)
+            3. Write custom composite key comparator (secondary sort)
+                 int result = k1.getPrimaryKey().compareTo(k2.getPrimaryKey());
+                 if(0 == result) {
+                 result = -1* k1.getSecondaryKey().compareTo(k2.getSecondaryKey());
+                 }
          */
         // Define the comparator that controls how the keys are sorted before they
         // are passed to the Reducer
-        job.setSortComparatorClass(null);
+        //job.setSortComparatorClass(null);//
 
         /**
+         * Grouping Comparator
+         * ===================
          * Reducer Instance vs reduce method:
          * One JVM is created per Reduce task and each of these has a single instance
          * of the Reducer class.This is Reducer instance(I call it Reducer from now).
@@ -127,14 +141,18 @@ public class App {
          */
         // Define the comparator that controls which keys are grouped together
         // for a single call to reduce method
-        job.setGroupingComparatorClass(null);
+        // job.setGroupingComparatorClass(null);//
 
         // record start time
         Date startTime = new Date();
         System.out.println("Job started: " + startTime);
 
-        // submit job to cluster
-        job.submit();
+        // Submit the job to the cluster and return immediately.
+        // Do when the multiple jobs need to be submitted together.
+        //job.submit();
+
+        //Submit the job to the cluster and wait for it to finish
+        job.waitForCompletion(true);
 
         Date endTime = new Date();
         System.out.println("Job ended: " + endTime);
