@@ -14,7 +14,8 @@ public class BigSchoolTestRunner{
         Result result = JUnitCore.runClasses(
                 BigSchoolMapperTest.class,
                 BigSchoolReduceTest.class,
-                CombinerPartitionerTest.class);
+                CombinerPartitionerTest.class,
+                MapReduceOperationTest.class );
 
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());

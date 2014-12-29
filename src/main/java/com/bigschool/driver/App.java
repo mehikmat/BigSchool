@@ -13,6 +13,8 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
+import java.util.Date;
+
 /**
  * MapReduce Operations showcased here are
  *
@@ -60,13 +62,7 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
  */
 public class App {
 
-    public static void main(String[] args) throws Exception {
-
-        if (args.length != 2) {
-            System.out.println("Usage: $HADOOP_HOME/bin/yarn jar [input] [output]");
-            System.exit(-1);
-        }
-
+    public static int runJob(String[] args) throws Exception{
         Job job = Job.getInstance(new Configuration());
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
@@ -92,7 +88,68 @@ public class App {
         job.setJarByClass(App.class);
         job.setJobName("MRv2-WordCount");
 
+        /**
+         * http://vangjee.wordpress.com/2012/03/20/secondary-sorting-aka-sorting-values-in-hadoops-mapreduce-programming-paradigm/
+         */
+        // Define the comparator that controls how the keys are sorted before they
+        // are passed to the Reducer
+        job.setSortComparatorClass(null);
+
+        /**
+         * Reducer Instance vs reduce method:
+         * One JVM is created per Reduce task and each of these has a single instance
+         * of the Reducer class.This is Reducer instance(I call it Reducer from now).
+         * Within each Reducer, reduce method is called multiple times depending on
+         * 'key grouping'.Each time reduce is called, 'valuein' has a list of map output
+         * values grouped by the key you define in 'grouping comparator'.By default,
+         * grouping comparator uses the entire map output key.
+         *
+         * Example*
+         * Input:*
+          symbol time price
+             a 1 10
+             a 2 20
+             b 3 30
+         Map output: create composite key\values like so symbol-time time-price
+             a-1 1-10
+             a-2 2-20
+             b-3 3-30
+         The Partitioner: will route the a-1 and a-2 keys to the same reducer despite the keys being different.
+         It will also route the b-3 to a separate reducer.
+
+         GroupComparator: once the composites key\value arrive at the reducer instead of the reducer getting
+             (a-1,{1-10})
+             (a-2,{2-20})
+         the above will happen due to the unique key values following composition.
+         the group comparator will ensure the reducer gets:
+             (a,{1-10,2-20})
+         [[In a single reduce method call.]]
+         */
+        // Define the comparator that controls which keys are grouped together
+        // for a single call to reduce method
+        job.setGroupingComparatorClass(null);
+
+        // record start time
+        Date startTime = new Date();
+        System.out.println("Job started: " + startTime);
+
         // submit job to cluster
         job.submit();
+
+        Date endTime = new Date();
+        System.out.println("Job ended: " + endTime);
+        System.out.println("The job took " +
+                (endTime.getTime() - startTime.getTime()) /1000 + " seconds.");
+
+        // return status
+        return 0;
+    }
+
+    public static void main(String[] args) throws Exception {
+        if (args.length >= 2) {
+            System.out.println("Usage: $HADOOP_HOME/bin/yarn jar [input] [output]");
+            System.exit(-1);
+        }
+        System.exit(runJob(args));
     }
 }
