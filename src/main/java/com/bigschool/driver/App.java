@@ -84,6 +84,27 @@ import java.util.Date;
  *    SequenceFile provides SequenceFile.Writer, SequenceFile.Reader and
  *    SequenceFile.Sorter classes for writing, reading and sorting respectively.
  *
+ *  Counting and Summing
+ *  --------------------
+ *  For instance, there is a log file where each record contains a response time and
+ *  it is required to calculate an average response time.
+ *  Applications: Log Analysis, Data Querying
+ *
+ *  Binning and Collating
+ *  ---------------------
+ *  IN>> word : list of page numbers containing word
+ *  Applications: Inverted Indexes, ETL,Max,Min
+ *
+ *  Filtering or Grepping
+ *  ---------------------
+ *  Applications: Log Analysis, Data Querying, ETL, Data Validation
+ *
+ *  Distributed Task
+ *  ----------------
+ *  There is a large computational problem that can be divided into multiple parts
+ *  and results from all parts can be combined together to obtain a final result.
+ *  Applications: Physical and Engineering Simulations, Numerical Analysis, Performance Testing
+ *
  *   Chaining jobs
  *   --------------
      Method 1:
@@ -104,7 +125,13 @@ import java.util.Date;
          jbcntrl.addJob(job2);
          job2.addDependingJob(job1);
          jbcntrl.run();
-
+ *
+ *
+ *  Distinct Values (Unique Items Counting)
+ *  ---------------------------------------
+ *
+ *
+ * Help Take from: https://highlyscalable.wordpress.com/2012/02/01/mapreduce-patterns/
  * @author Hikmat Dhamee
  * @email me.hemant.available@gmail.com
  */
