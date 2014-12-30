@@ -51,6 +51,7 @@ public class MapReduceOperationTest {
     }
 
     // Test sorting by framework
+    // Use identity mapper and identity reduce for sorting
     @SuppressWarnings("unchecked")
     @Test
     public void testSorting() throws IOException {

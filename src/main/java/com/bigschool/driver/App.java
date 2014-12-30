@@ -8,9 +8,13 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.filecache.ClientDistributedCacheManager;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFilter;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.util.Date;
@@ -45,6 +49,8 @@ import java.util.Date;
  *  3. Secondary Sort
  *  4. CoGroup/Join
  *  5. Distributed Total Sort
+ *  6. Distributed Cache
+ *  7. Reading from HDFS programmetically
  *
  *  Very Advanced Operations
  *  ------------------------
@@ -75,6 +81,12 @@ import java.util.Date;
  *   The number of partitions is equal to the number of reducers.
  *   The data gets partitioned across the reducers according to the partitioning function
  *
+ *   Sequence File
+ *   --------------
+ *    SequenceFiles are flat files consisting of binary key/value pairs.
+ *    SequenceFile provides SequenceFile.Writer, SequenceFile.Reader and
+ *    SequenceFile.Sorter classes for writing, reading and sorting respectively.
+ *
  * @author Hikmat Dhamee
  * @email me.hemant.available@gmail.com
  */
@@ -98,10 +110,18 @@ public class App {
         job.setReducerClass(BigSchoolReducer.class);
 
         job.setInputFormatClass(TextInputFormat.class);
+        //for sequence file input
+        //job.setInputFormatClass(SequenceFileInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
+        // for sequence file output
+        //job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
         FileInputFormat.setInputPaths(job, new Path(args[0]));
+        // for sequence file input path
+        //SequenceFileInputFormat.setInputPaths(job,new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        // for sequence file output path
+        //SequenceFileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         job.setJarByClass(App.class);
         job.setJobName("MRv2-WordCount");
