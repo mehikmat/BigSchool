@@ -25,10 +25,10 @@ import java.util.Date;
  *  2. Reducer
  *  3. Combiner
  *  4. Partitioner
- *  5. Sorting
+ *  5. Sorting [GropingComparator and KeyComparator]
  *
- *  Common MapReduce Patterns
- *  -------------------------
+ *  Common MapReduce Operations
+ *  ---------------------------
  *  1. Filtering or Grepping
  *  2. Parsing, Conversion
  *  3. Counting, Summing
@@ -37,6 +37,24 @@ import java.util.Date;
  *  6. Simple Total Sorting
  *  7. Chained Jobs
  *  ==============================================
+ *
+ * Advanced MapReduce Operations
+ * -----------------------------
+ *  1. GroupBy
+ *  2. Distinct
+ *  3. Secondary Sort
+ *  4. CoGroup/Join
+ *  5. Distributed Total Sort
+ *
+ *  Very Advanced Operations
+ *  ------------------------
+ *  1. Classification
+ *  2. Clustering
+ *  3. Regression
+ *  4. Dimension Reduction
+ *  5. Evolutionary Algorithms
+ *
+ *
  *
  *  Combiner
  *  --------
@@ -94,14 +112,14 @@ public class App {
          * Useful link for secondary sort implementation by means of composite primary key {natural_key,secondary_key}
          * http://vangjee.wordpress.com/2012/03/20/secondary-sorting-aka-sorting-values-in-hadoops-mapreduce-programming-paradigm/
          * Steps:
-         *  1. Write custom partitioner and use natural key for partitioning (group by key)
-               (multiple unique keys may go to same reducer). So
-            2. Write custom natural key grouping comparator (primary sort)
-            3. Write custom composite key comparator (secondary sort)
-                 int result = k1.getPrimaryKey().compareTo(k2.getPrimaryKey());
-                 if(0 == result) {
-                 result = -1* k1.getSecondaryKey().compareTo(k2.getSecondaryKey());
-                 }
+         *   1. Write custom partitioner and use natural key for partitioning (group by key)
+         *      (multiple unique keys may go to same reducer). So
+         *   2. Write custom natural key grouping comparator (primary sort)
+         *   3. Write custom composite key comparator (secondary sort)
+         *        int result = k1.getPrimaryKey().compareTo(k2.getPrimaryKey());
+         *        if(0 == result) {
+         *        result = -1* k1.getSecondaryKey().compareTo(k2.getSecondaryKey());
+         *        }
          */
         // Define the comparator that controls how the keys are sorted before they
         // are passed to the Reducer
@@ -120,24 +138,24 @@ public class App {
          *
          * Example*
          * Input:*
-          symbol time price
-             a 1 10
-             a 2 20
-             b 3 30
-         Map output: create composite key\values like so symbol-time time-price
-             a-1 1-10
-             a-2 2-20
-             b-3 3-30
-         The Partitioner: will route the a-1 and a-2 keys to the same reducer despite the keys being different.
-         It will also route the b-3 to a separate reducer.
-
-         GroupComparator: once the composites key\value arrive at the reducer instead of the reducer getting
-             (a-1,{1-10})
-             (a-2,{2-20})
-         the above will happen due to the unique key values following composition.
-         the group comparator will ensure the reducer gets:
-             (a,{1-10,2-20})
-         [[In a single reduce method call.]]
+         * symbol time price
+         *    a 1 10
+         *    a 2 20
+         *    b 3 30
+         * Map output: create composite key\values like so symbol-time time-price
+         *    a-1 1-10
+         *    a-2 2-20
+         *    b-3 3-30
+         * The Partitioner: will route the a-1 and a-2 keys to the same reducer despite the keys being different.
+         * It will also route the b-3 to a separate reducer.
+         *
+         * GroupComparator: once the composites key\value arrive at the reducer instead of the reducer getting
+         *    (a-1,{1-10})
+         *    (a-2,{2-20})
+         * the above will happen due to the unique key values following composition.
+         * the group comparator will ensure the reducer gets:
+         *    (a,{1-10,2-20})
+         * [[In a single reduce method call.]]
          */
         // Define the comparator that controls which keys are grouped together
         // for a single call to reduce method
