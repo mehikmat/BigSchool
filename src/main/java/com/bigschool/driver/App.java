@@ -8,13 +8,10 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.filecache.ClientDistributedCacheManager;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFilter;
-import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.util.Date;
@@ -87,6 +84,27 @@ import java.util.Date;
  *    SequenceFile provides SequenceFile.Writer, SequenceFile.Reader and
  *    SequenceFile.Sorter classes for writing, reading and sorting respectively.
  *
+ *   Chaining jobs
+ *   --------------
+     Method 1:
+         First create the JobConf object "job1" for the first job and set all the parameters with "input"
+         as inputdirectory and "temp" as output directory. Execute this job: JobClient.run(job1).
+         Immediately below it, create the JobConf object "job2" for the second job and set all the
+         parameters with "temp" as inputdirectory and "output" as output directory.
+         Finally execute second job: JobClient.run(job2).
+
+     Method 2:
+         Create two JobConf objects and set all the parameters in them just like (1) except that
+         you don't use JobClient.run.
+         Then create two Job objects with jobconfs as parameters:
+         Job job1=new Job(jobconf1); Job job2=new Job(jobconf2);
+         Using the jobControl object, you specify the job dependencies and then run the jobs:
+         JobControl jbcntrl=new JobControl("jbcntrl");
+         jbcntrl.addJob(job1);
+         jbcntrl.addJob(job2);
+         job2.addDependingJob(job1);
+         jbcntrl.run();
+
  * @author Hikmat Dhamee
  * @email me.hemant.available@gmail.com
  */
