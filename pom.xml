@@ -74,6 +74,8 @@
             <groupId>driven</groupId>
             <artifactId>driven-plugin</artifactId>
             <version>1.2-eap-4</version>
+            <!--if you want use concurrent hosted driven server
+            <classifier>io</classifier>-->
         </dependency>
         <dependency>
             <groupId>junit</groupId>
