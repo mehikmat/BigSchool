@@ -106,7 +106,13 @@ export DRIVEN_SERVER_HOSTS=_YOUR_DRIVEN_SERVER_URL_
 (don't export host property if you are using hosted driven)
 ```
 
+Creating Tags:
+---------------
+http://docs.cascading.io/driven/1.2/user-guide/tags.html
 
+Creating Teams and users:
+---------------------------
+http://docs.cascading.io/driven/1.2/user-guide/teams.html
 
 
 
