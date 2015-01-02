@@ -16,7 +16,7 @@ How to run
 
     $ cd BigSchool
 
-    $ git checkout cascading-app
+    $ git checkout cascading2.5.3-app
 
     $ mvn clean package
 
