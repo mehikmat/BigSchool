@@ -1,4 +1,4 @@
-BigSchool
+BigSchool [![endorse](https://api.coderwall.com/mehikmat/endorsecount.png)](https://coderwall.com/mehikmat) [![Build Status](https://travis-ci.org/mehikmat/BigSchool.svg)](https://travis-ci.org/mehikmat/BigSchool)
 =========
 
 MapReduce-2 Application for processing raw data file and counting words
