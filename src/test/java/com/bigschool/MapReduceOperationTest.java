@@ -2,7 +2,7 @@ package com.bigschool;
 
 import com.bigschool.comparator.CustomKeyOrderComparator;
 import com.bigschool.filter.RowFilterMapper;
-import com.bigschool.mapper.BigSchoolMapper;
+import com.bigschool.mapper.StudentInfoMapper;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -30,7 +30,7 @@ public class MapReduceOperationTest {
     @SuppressWarnings("unchecked")
     @Before
     public void setUp() {
-        BigSchoolMapper mapper = new BigSchoolMapper();
+        StudentInfoMapper mapper = new StudentInfoMapper();
         mapReduceDriver = MapReduceDriver.newMapReduceDriver();
 
         /**
@@ -55,7 +55,7 @@ public class MapReduceOperationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testSorting() throws IOException {
-        mapReduceDriver.withInput(new LongWritable(), new Text("ram hikmat singh dhamee ram singh dhamee dip singh dhamee"));
+        mapReduceDriver.withInput(new LongWritable(), new Text("Hikmat;student_middle_name;student_last_name;student_address;student_phone;student_roll;5"));
 
         final List<Pair<Text, IntWritable>> result = mapReduceDriver.run();
 

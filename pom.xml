@@ -50,6 +50,11 @@
             <artifactId>fest-assert</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>0.90.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -60,8 +65,8 @@
                 <version>2.3.2</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <optimize>true</optimize>
                 </configuration>
             </plugin>
@@ -74,7 +79,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.bigschool.driver.App</mainClass>
+                            <mainClass>com.bigschool.driver.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

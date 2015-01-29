@@ -68,12 +68,11 @@ public class FileReadWriteTest extends TestCase {
 
     @Test
     public void testReadingTextFile() throws Exception{
-        Path myFile = new Path("data/input.txt");
+        Path myFile = new Path("data/Student.csv");
         List<String> results = readTextFiles(myFile, new Configuration());
 
-        String expected = "[Hello world hello world, Hello world hello world," +
-                " Hello world hello world, Hello world hello world]";
-        assertEquals(expected,results.toString());
+        String expected = "#student_first_name;student_middle_name;student_last_name;student_address;student_phone;student_roll;student_marks";
+        assertEquals(expected,results.get(0));
     }
 
     @Test
@@ -107,7 +106,7 @@ public class FileReadWriteTest extends TestCase {
      *
      *   2. Setup the application's Job:
      *      Job job = new Job();
-     *      job.addCacheFile(new URI("data/input.txt"));
+     *      job.addCacheFile(new URI("data/Student.csv"));
      *
      *    3. Use the cached files in the Mapper or Reducer:
      *       configure files in configure method and use in reduce or map method.
@@ -122,7 +121,7 @@ public class FileReadWriteTest extends TestCase {
         mapDriver = MapDriver.newMapDriver(mapper);
 
         Configuration conf = new Configuration();
-        conf.set(MRJobConfig.CACHE_LOCALFILES, "data/input.txt");
+        conf.set(MRJobConfig.CACHE_LOCALFILES, "data/Student.csv");
         mapDriver.setConfiguration(conf);
 
         mapDriver.withInput(new LongWritable(1),new Text(""));

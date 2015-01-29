@@ -1,11 +1,8 @@
 package com.bigschool;
 
-import com.bigschool.mapper.BigSchoolMapper;
-import com.bigschool.reducer.BigSchoolReducer;
+import com.bigschool.reducer.StudentInfoReducer;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mrunit.mapreduce.MapDriver;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 import org.apache.hadoop.mrunit.types.Pair;
 import org.fest.assertions.Assertions;
@@ -25,17 +22,17 @@ public class BigSchoolReduceTest {
 
     @Before
     public void setUp() {
-        BigSchoolReducer reducer = new BigSchoolReducer();
+        StudentInfoReducer reducer = new StudentInfoReducer();
         reduceDriver = ReduceDriver.newReduceDriver(reducer);
     }
     @Test
     public void testReducer() {
         List<IntWritable> values = new ArrayList<IntWritable>();
-        values.add(new IntWritable(1));
-        values.add(new IntWritable(1));
-        values.add(new IntWritable(1));
+        values.add(new IntWritable(5));
+        values.add(new IntWritable(10));
+        values.add(new IntWritable(15));
         reduceDriver.withInput(new Text("hikmat"), values);
-        reduceDriver.withOutput(new Text("hikmat"), new IntWritable(3));
+        reduceDriver.withOutput(new Text("hikmat"), new IntWritable(30));
         reduceDriver.runTest();
     }
 

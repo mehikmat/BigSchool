@@ -1,7 +1,7 @@
 package com.bigschool;
 
-import com.bigschool.mapper.BigSchoolMapper;
-import com.bigschool.reducer.BigSchoolReducer;
+import com.bigschool.mapper.StudentInfoMapper;
+import com.bigschool.reducer.StudentInfoReducer;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -25,8 +25,8 @@ public class CombinerPartitionerTest {
 
     @Before
     public void setUp(){
-        BigSchoolMapper mapper = new BigSchoolMapper();
-        BigSchoolReducer combiner = new BigSchoolReducer();
+        StudentInfoMapper mapper = new StudentInfoMapper();
+        StudentInfoReducer combiner = new StudentInfoReducer();
 
         mapCombinerDriver = MapReduceDriver.newMapReduceDriver();
 
@@ -39,16 +39,18 @@ public class CombinerPartitionerTest {
 
     @Test
     public void testMultipleOutputs() throws IOException {
-        mapCombinerDriver.withInput(new LongWritable(), new Text("hikmat singh dhamee hikmat singh dhamee"));
+        //TODO: test with multiple input records
+
+        mapCombinerDriver.withInput(new LongWritable(), new Text("Hikmat Vinson;Sanchez;Stephens;Ap #791-1271 Vivamus St.;07624 661704;4669845150597397;5"));
         final List<Pair<Text, IntWritable>> result = mapCombinerDriver.run();
 
         System.out.println("OUTPUT>> " + result.toString());
 
-        final Pair<Text, IntWritable> r1 = new Pair<Text, IntWritable>(new Text("hikmat"), new IntWritable(2));
+        final Pair<Text, IntWritable> r1 = new Pair<Text, IntWritable>(new Text("Hikmat Vinson"), new IntWritable(5));
 
         Assertions.assertThat(result)
                 .isNotNull()
-                .hasSize(3)
+                .hasSize(1)
                 .contains(r1);
     }
 }

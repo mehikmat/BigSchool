@@ -1,6 +1,6 @@
 package com.bigschool;
 
-import com.bigschool.mapper.BigSchoolMapper;
+import com.bigschool.mapper.StudentInfoMapper;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -22,30 +22,35 @@ public class BigSchoolMapperTest {
 
     @Before
     public void setUp() {
-        BigSchoolMapper mapper = new BigSchoolMapper();
+        StudentInfoMapper mapper = new StudentInfoMapper();
         mapDriver = MapDriver.newMapDriver(mapper);
     }
 
     @Test
     public void testMapper(){
+        // data layout
+        //#student_first_name;student_middle_name;student_last_name;student_address;student_phone;student_roll;student_marks
         mapDriver
-        .withInput(new LongWritable(), new Text("hikmat"))
-        // mapDriver.withOutput(new Text("hikmat"), new IntWritable(1));
-        .withOutput(new Pair<Text, IntWritable>(new Text("hikmat"),new IntWritable(1)))
+        .withInput(new LongWritable(), new Text("Demetrius Vinson;Sanchez;Stephens;Ap #791-1271 Vivamus St.;07624 661704;4669845150597397;5"))
+        // mapDriver.withOutput(new Text("Demetrius Vinson"), new IntWritable(1));
+        .withOutput(new Pair<Text, IntWritable>(new Text("Demetrius Vinson"),new IntWritable(5)))
         .runTest();
     }
 
     @Test
      public void testMultipleOutputs() throws IOException {
-        mapDriver.withInput(new LongWritable(), new Text("hikmat singh dhamee hikmat singh dhamee"));
+        //TODO: test with multiple input records
+
+        mapDriver.withInput(new LongWritable(2), new Text("Hikmat Vinson;Sanchez;Stephens;Ap #791-1271 Vivamus St.;07624 661704;4669845150597397;5"));
+        mapDriver.withInput(new LongWritable(1), new Text("Demetrius Vinson;Sanchez;Stephens;Ap #791-1271 Vivamus St.;07624 661704;4669845150597397;5"));
         final List<Pair<Text, IntWritable>> result = mapDriver.run();
 
-        final Pair<Text, IntWritable> r1 = new Pair<Text, IntWritable>(new Text("hikmat"), new IntWritable(1));
-        final Pair<Text, IntWritable> r2 = new Pair<Text, IntWritable>(new Text("singh"), new IntWritable(1));
+        final Pair<Text, IntWritable> r1 = new Pair<Text, IntWritable>(new Text("Demetrius Vinson"), new IntWritable(5));
+        //final Pair<Text, IntWritable> r2 = new Pair<Text, IntWritable>(new Text("Hikmat Vinson"), new IntWritable(5));
 
        Assertions.assertThat(result)
                .isNotNull()
-               .hasSize(6)
-               .contains(r1, r2);
+               .hasSize(1)
+               .contains(r1/*r2*/);
     }
 }
