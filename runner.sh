@@ -1,6 +1,7 @@
 #!/bin/sh
 #Remove output directory if already exists
-$HADOOP_HOME/bin/hadoop fs -rm -r output/output.txt
+$HADOOP_HOME/bin/hadoop fs -rm -r input
+$HADOOP_HOME/bin/hadoop fs -rm -r output
 
 #Create input directory
 $HADOOP_HOME/bin/hadoop fs -mkdir -p input
