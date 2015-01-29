@@ -38,7 +38,7 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
     }
 
     @Override
-    public void startRecord(String index, String tableName,String documentId) {
+    public void startRecord(String documentId) {
         //Record level initialization
         try {
             jsonBuilder = jsonBuilder();
@@ -92,7 +92,7 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
     }
 
     @Override
-    public void processColumn(String columnName, String columnType, Object data) {
+    public void processColumn(String columnName, Object data) {
         try {
             jsonBuilder.field(columnName, data);
         } catch (IOException e) {
