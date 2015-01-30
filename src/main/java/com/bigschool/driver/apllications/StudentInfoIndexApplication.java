@@ -22,7 +22,7 @@ import java.util.Properties;
  * @email me.hemant.available@gmail.com
  */
 public class StudentInfoIndexApplication implements HadoopApplication {
-    private static final String CLUSTER_CONFIG = "es_cluster_config.properties";
+    private static final String CLUSTER_CONFIG = "classPath:es_cluster_config.properties";
 
     @Override
     public int runApplication(String[] args) throws IOException, ClassNotFoundException, InterruptedException {

@@ -28,7 +28,7 @@ public abstract class AbstractElasticSearchIndexer implements AlgorithmLifeCycle
     public static final String INDEX_NAME = "index_name";
     public static final String RECORD_TYPE = "record_type";
     public static final String elasticSearchClusterAddress = "es_node_addresses";
-    public static final String elasticSearchClusterName = "cluster_name";
+    public static final String elasticSearchClusterName = "es_cluster_name";
     public static final String PARAM_RUN_TRANSPORT = "transport_client";
 
     // cluster parameters

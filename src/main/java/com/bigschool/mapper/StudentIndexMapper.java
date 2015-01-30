@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author Hikmat Dhamee
  * @email me.hemant.available@gmail.com
  */
-public class StudentIndexMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+public class StudentIndexMapper extends Mapper<Text, IntWritable, Text, IntWritable> {
     private IndexingAlgorithm indexingAlgorithm = new ElasticSearchIndexer();
 
     @Override
@@ -25,9 +25,10 @@ public class StudentIndexMapper extends Mapper<LongWritable, Text, Text, IntWrit
     }
 
     @Override
-    protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+    protected void map(Text key, IntWritable value, Context context) throws IOException, InterruptedException {
         indexingAlgorithm.startRecord(key.toString());
-        indexingAlgorithm.processColumn(key.toString(), value);
+        indexingAlgorithm.processColumn("studentName", key);
+        indexingAlgorithm.processColumn("totalMarks", value);
         indexingAlgorithm.endRecord();
     }
 

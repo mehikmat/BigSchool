@@ -16,4 +16,4 @@ mvn clean package
 #Run Job
 # App-1 "student-process"
 $HADOOP_HOME/bin/hadoop jar target/BigSchoolMapReduce-1.0.jar student-process input output
-$HADOOP_HOME/bin/hadoop jar target/BigSchoolMapReduce-1.0.jar output index
+$HADOOP_HOME/bin/hadoop jar target/BigSchoolMapReduce-1.0.jar student-index output index
