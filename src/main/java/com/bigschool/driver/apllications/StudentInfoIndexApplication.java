@@ -97,8 +97,7 @@ public class StudentInfoIndexApplication implements HadoopApplication {
             configuration.set(key,properties.getProperty(key));
         }
         // setup custom job configs
-        configuration.set("index_name","demo");
-        configuration.set("","demo");
+        configuration.set("record_type","Student");
         return configuration;
     }
 }

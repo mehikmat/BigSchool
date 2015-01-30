@@ -34,11 +34,11 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
         if (request == null) {
             request = client.prepareBulk();
         }
-        stringMap = new HashMap<byte[], String>();
     }
 
     @Override
     public void startRecord(String documentId) {
+        this.documentId = documentId;
         //Record level initialization
         try {
             jsonBuilder = jsonBuilder();

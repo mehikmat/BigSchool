@@ -26,8 +26,8 @@ public class StudentIndexMapper extends Mapper<LongWritable, Text, Text, IntWrit
 
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-        indexingAlgorithm.startRecord(null);
-        indexingAlgorithm.processColumn(null, null);
+        indexingAlgorithm.startRecord(key.toString());
+        indexingAlgorithm.processColumn(key.toString(), value);
         indexingAlgorithm.endRecord();
     }
 

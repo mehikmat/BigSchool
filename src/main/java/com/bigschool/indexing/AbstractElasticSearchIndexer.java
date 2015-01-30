@@ -4,7 +4,7 @@ import com.bigschool.context.AppContext;
 import org.apache.hadoop.mapreduce.TaskInputOutputContext;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.ActionRequestBuilder;
-import org.elasticsearch.action.admin.indices.settings.UpdateSettingsRequest;
+import org.elasticsearch.action.admin.indices.settings.put.UpdateSettingsRequest;
 import org.elasticsearch.client.AdminClient;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
@@ -26,6 +26,7 @@ public abstract class AbstractElasticSearchIndexer implements AlgorithmLifeCycle
 
     // constants
     public static final String INDEX_NAME = "index_name";
+    public static final String RECORD_TYPE = "record_type";
     public static final String elasticSearchClusterAddress = "es_node_addresses";
     public static final String elasticSearchClusterName = "cluster_name";
     public static final String PARAM_RUN_TRANSPORT = "transport_client";
@@ -56,6 +57,7 @@ public abstract class AbstractElasticSearchIndexer implements AlgorithmLifeCycle
 
         // get configuration
         indexName = mapReduceContext.getConfiguration().get(INDEX_NAME);
+        recordType = mapReduceContext.getConfiguration().get(RECORD_TYPE);
         String esAddress = mapReduceContext.getConfiguration().get(elasticSearchClusterAddress);
         String esName = mapReduceContext.getConfiguration().get(elasticSearchClusterName);
         runAsTransportClient = mapReduceContext.getConfiguration().getBoolean(PARAM_RUN_TRANSPORT, runAsTransportClient);
