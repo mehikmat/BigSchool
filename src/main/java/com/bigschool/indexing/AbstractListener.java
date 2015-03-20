@@ -4,11 +4,8 @@ import org.elasticsearch.action.ActionListener;
 
 
 /**
- * @author: lekhnath
- * <p/>
- * Date: May 3, 2012
- * Time: 7:04:01 PM
- * To change this template use File | Settings | File Templates.
+ * @author Hikmat Dhamee
+ * @email me.hemant.available@gmail.com
  */
 public abstract class AbstractListener<Response> implements ActionListener<Response> {
     private boolean isDone = false;

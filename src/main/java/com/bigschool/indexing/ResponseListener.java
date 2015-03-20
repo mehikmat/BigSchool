@@ -4,11 +4,8 @@ import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.bulk.BulkResponse;
 
 /**
- * Response listener for elastic search bulk write job.
- *
- * @author sumit
- *         Date: 5/1/12
- *         Time: 9:18 PM
+ * @author Hikmat Dhamee
+ * @email me.hemant.available@gmail.com
  */
 public class ResponseListener extends AbstractListener<BulkResponse> implements ActionListener<BulkResponse> {
     @Override
