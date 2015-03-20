@@ -39,7 +39,8 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
     @Override
     public void startRecord(String documentId) {
         this.documentId = documentId;
-        //Record level initialization
+
+        // Record level initialization
         try {
             jsonBuilder = jsonBuilder();
             jsonBuilder.startObject();
@@ -47,7 +48,8 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        //Increment our bulk record counter
+
+        // Increment the bulk record counter
         requestCounter++;
     }
 
@@ -103,22 +105,20 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
 
     @Override
     public void endRecord() {
-        // ((BulkRequestBuilder) request).add(client.prepareDelete().setIndex("").setType("").setId(""))); deleting record
         try {
             jsonBuilder.endObject();
-            System.out.println("End record called...");
+            System.out.println("Document "+ requestCounter + " added to bulk request.");
 
             ((BulkRequestBuilder) request).add(Requests.indexRequest(indexName).type(recordType).id(documentId).create(false).source(jsonBuilder));
-            // bulkRequest.add(client.prepareIndex(indexName, recordType, documentId).setSource(jsonBuilder));
 
             if (requestCounter > requestSize) {
-                System.out.println("Submitting " + requestCounter + " document records.");
+                System.out.println("Submitting " + requestCounter + " documents.");
                 processCounter = processCounter + requestCounter;
                 executeRequest(false);
                 requestCounter = 0;
             }
         } catch (IOException e) {
-            // rethrow the exception, we are not handling it.
+            // rethrow the exception, just bubble up
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -144,16 +144,12 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
         }
     }
 
-    protected AbstractListener getListener() {
-        return new ResponseListener();
-    }
-
     @Override
     public void cleanUpInternal(AppContext context) {
-        /* Execute the last of the batch */
-        System.out.println("cleanup called..." + requestCounter);
+        /* Execute the last batch */
+        System.out.println("Cleaning up the bulk request... " + requestCounter);
         if (requestCounter > 0) {
-            System.out.println("cleanUp is Submitting " + requestCounter + " document records.");
+            System.out.println("Clean up is submitting " + requestCounter + " document.");
             processCounter = processCounter + requestCounter;
             if (mapReduceContext == null) {
                 if (context.mapContext != null)
@@ -161,10 +157,14 @@ public class ElasticSearchIndexer extends AbstractElasticSearchIndexer implement
                 else
                     mapReduceContext = context.mapContext;
             }
-            System.out.println("calling executeRequest from cleanup...");
+            System.out.println("Calling executeRequest from cleanup...");
             executeRequest(true);
         }
-        System.out.println("Finished processing " + processCounter + " document records.");
+        System.out.println("Finished processing " + processCounter + " documents.");
+    }
+
+    protected AbstractListener getListener() {
+        return new ResponseListener();
     }
 
     public String toString(byte[] bytes) {

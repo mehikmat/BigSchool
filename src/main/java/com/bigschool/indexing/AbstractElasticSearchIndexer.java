@@ -118,7 +118,7 @@ public abstract class AbstractElasticSearchIndexer implements AlgorithmLifeCycle
 
     @Override
     public void cleanUp(AppContext context) {
-        System.out.println("Cleanup is called at abstract method...");
+        System.out.println("Cleanup is being done...");
         cleanUpInternal(context);
         if (client != null) {
             logger.info("Closing client...");
@@ -161,27 +161,28 @@ public abstract class AbstractElasticSearchIndexer implements AlgorithmLifeCycle
         }
     }
 
-    protected abstract AbstractListener getListener();
-
     protected void executeRequest(final boolean isCleanup) {
-        System.out.println("Init listener...");
-        logger.info("Starting thread for listener...");
+        System.out.println("Response listener initialization...");
+
         mapReduceContext.progress();
-        mapReduceContext.getCounter("ESRecords","Written").increment(this.requestCounter);
+        mapReduceContext.getCounter("ES documents","written").increment(this.requestCounter);
 
         AbstractListener listener = getListener();
+
         Thread requestThread = new Thread(new RequestRunnable(request, listener));
         requestThread.setDaemon(false);
         requestThread.start();
 
-        logger.info("Waiting for listener thread to finish writing...");
+        System.out.println("Waiting for listener thread to finish writing...");
+
         waitForDataTransfer(listener);
 
         if (!isCleanup) {
             prepareRequest();
         }
-
     }
+
+    protected abstract AbstractListener getListener();
 
     protected void prepareRequest() {
         //prepare bulk request by default

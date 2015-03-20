@@ -10,7 +10,7 @@ import org.elasticsearch.action.ActionListener;
 public abstract class AbstractListener<Response> implements ActionListener<Response> {
     private boolean isDone = false;
     private boolean hasException = false;
-    Throwable error;
+    protected Throwable error;
 
     @Override
     public void onResponse(Response o) {
@@ -18,20 +18,18 @@ public abstract class AbstractListener<Response> implements ActionListener<Respo
         dealWithPrimaryThread();
     }
 
-    protected abstract void onResponseInternal(Response response);
+    @Override
+    public void onFailure(Throwable e) {
+        this.error = e;
+        dealWithPrimaryThread();
+
+    }
 
     private void dealWithPrimaryThread() {
         isDone = true;
         if (this.error != null) {
             hasException = true;
         }
-    }
-
-    @Override
-    public void onFailure(Throwable e) {
-        this.error = e;
-        dealWithPrimaryThread();
-
     }
 
     public boolean getStatus() {
@@ -45,4 +43,6 @@ public abstract class AbstractListener<Response> implements ActionListener<Respo
     public Throwable getError() {
         return error;
     }
+
+    protected abstract void onResponseInternal(Response response);
 }

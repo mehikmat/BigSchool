@@ -7,10 +7,12 @@ import com.bigschool.context.AppContext;
  * @email me.hemant.available@gmail.com
  */
 public interface AlgorithmLifeCycle {
+
     /**
      * Sets up environment for execution.
-     * The set up may include initialization of formats for the job, parsing the configuration
-     * file and so on depending upon the unit of work dedicated to the implementation.
+     * The set up may include initialization of formats for the job,
+     * parsing the configuration file and so on depending upon the
+     * unit of work dedicated to the implementation.
      *
      * @param context
      */
