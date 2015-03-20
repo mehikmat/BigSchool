@@ -28,6 +28,9 @@ public class StudentInfoIndexApplication implements HadoopApplication {
     public int runApplication(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         Job job = Job.getInstance(getConfiguration());
 
+        // set number of reducer
+        job.setNumReduceTasks(0);
+
         // set key types
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
