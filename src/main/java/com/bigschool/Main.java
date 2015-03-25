@@ -4,7 +4,6 @@ import cascading.cascade.Cascade;
 import cascading.cascade.CascadeConnector;
 import cascading.flow.Flow;
 import cascading.flow.hadoop.HadoopFlowConnector;
-import cascading.operation.aggregator.Count;
 import cascading.pipe.Every;
 import cascading.pipe.GroupBy;
 import cascading.pipe.Pipe;
@@ -15,7 +14,8 @@ import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
 
 /**
- *
+ * @author Hikmat Dhamee
+ * @email me.hemant.available@gmail.com
  */
 public class Main {
 
@@ -48,7 +48,4 @@ public class Main {
     public static void main(String[] args) {
         new Main().run();
     }
-
-
-
 }

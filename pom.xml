@@ -77,6 +77,19 @@
             <!--if you want use concurrent hosted driven server
             <classifier>io</classifier>-->
         </dependency>
+
+        <!--es-hadoop dependency-->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-hadoop</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-hadoop-cascading</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
