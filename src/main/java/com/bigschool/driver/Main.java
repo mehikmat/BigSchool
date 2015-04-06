@@ -14,7 +14,15 @@ import com.bigschool.driver.apllications.StudentInfoProcessApplication;
  *  3. Combiner
  *  4. Partitioner
  *  5. Sorting [GropingComparator and KeyComparator]
- *
+ * 
+ * ==================================================
+ * MapReduce Framework
+ * -------------------
+ *  Shuffle:The process of moving map outputs to the reducers is known as shuffling
+ *  Sort: Each reduce task is responsible for reducing the values associated with several intermediate keys.
+ *        The set of intermediate keys on a single node is automatically sorted by Hadoop before they are
+ *        presented to the Reducer.
+ * 
  *  Common MapReduce Operations
  *  ---------------------------
  *  1. Filtering or Grepping
