@@ -22,6 +22,13 @@ import com.bigschool.driver.apllications.StudentInfoProcessApplication;
  *  Sort: Each reduce task is responsible for reducing the values associated with several intermediate keys.
  *        The set of intermediate keys on a single node is automatically sorted by Hadoop before they are
  *        presented to the Reducer.
+ *  Speculative Execution: As most of the tasks in a job are coming to a close(nearly 95%),
+ *        the Hadoop platform will schedule redundant copies of the remaining tasks across
+ *        several nodes which do not have other work to perform. This process is known as
+ *        speculative execution. When tasks complete, they announce this fact to the JobTracker.
+ *        Whichever copy of a task finishes first becomes the definitive copy.
+ *        If other copies were executing speculatively, Hadoop tells the TaskTrackers to abandon
+ *        the tasks and discard their outputs.By default it is true.
  * 
  *  Common MapReduce Operations
  *  ---------------------------
