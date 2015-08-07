@@ -13,4 +13,7 @@ $HADOOP_HOME/bin/hadoop fs -put ./data/input.txt input/
 mvn clean package
 
 #Run Job
-$HADOOP_HOME/bin/hadoop jar target/BigSchoolCascading-1.0.jar input/input.txt output/output.txt
+For uploading data to redis, for later use
+$HADOOP_HOME/bin/hadoop jar target/BigSchoolCascading-1.0.jar upload_to_redis input/datatobecached.txt
+Use redis cache to filter data from input file
+$ hadoop jar target/BigSchoolCascading-1.0.jar use_redis_cache input/input.txt output/output.txt

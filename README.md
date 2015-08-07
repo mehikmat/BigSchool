@@ -16,12 +16,10 @@ How to run
 
     $ cd BigSchool
 
-    $ git checkout cascading2.5.3-app
+    $ git checkout redis_cache
 
     $ mvn clean package
 
-    $ hadoop jar target/BigSchoolCascading-1.0.jar input/input.txt output/output.txt
-        OR
     $ sh runner.sh
 
   In case you get an error of type "Not valid JAR", check the jar path. It might be different from one plateform to another with mvn.
@@ -29,8 +27,16 @@ How to run
 
 Browse http://localhost:8088 for job status
 
+What is Redis?
+==============
+Redis is an open source, BSD licensed, advanced key-value cache and store.
+It is often referred to as a data structure server since keys can contain strings,
+hashes, lists, sets, sorted sets, bitmaps and hyperloglogs.
+
+It can be use for checking existence against large data set stored in HDFS or somewhere else.
+It's very fast than Hadoop Distributed Cache.
+
 REFERENCES:
 -----------
-- http://www.cascading.org/support/compatibility/
-- http://www.cascading.org
-- http://docs.cascading.io/driven/1.0/getting-started/index.html
+- https://github.com/xetorthio/jedis [Redis Java Client Library]
+- http://redis.io/
