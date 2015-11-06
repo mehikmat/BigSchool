@@ -1,19 +1,9 @@
 BigSchool [![endorse](https://api.coderwall.com/mehikmat/endorsecount.png)](https://coderwall.com/mehikmat) [![Build Status](https://travis-ci.org/mehikmat/BigSchool.svg)](https://travis-ci.org/mehikmat/BigSchool)
 =========
 
-MapReduce-2 Application for processing raw data file and counting words
+MapReduce-2 Application for testing custom pdf input format
 
 Technologies: Cloudera Hadoop CDH5,Maven, IntelliJ IDEA
-
-###NOTE:MRv1 & MRv2 compatibility###
-```
-In general, the previous MapReduce runtime (aka MRv1) has been reused and no major surgery has been conducted on it.
-Therefore, MRv2 is able to ensure satisfactory compatibility with MRv1 applications.
-However, due to some improvements and code refactorings, a few APIs have been rendered backward-incompatible.
-
-NEW API in package: org.apache.hadoop.mapreduce;
-OLD API in package: org.apache.hadoop.mapred;
-```
 
 Prerequisites
 ===============
@@ -28,21 +18,12 @@ How to run
 
     $ cd BigSchool
 
-    $ git checkout mr2-app
-
+    $ git checkout custom_input_format<branch_name>
+    
     $ mvn clean package
 
-    $ yarn jar target/BigSchoolMapReduce-1.0.jar input/input.txt output/output.txt
+    $ yarn jar target/BigSchoolMapReduce-1.0.jar Student output
 
       OR
 
     $ sh runner.sh
-
-  In case you get an error of type "Not valid JAR", check the jar path. It might be different from one plateform to another with mvn.
-
-
-Browse http://localhost:8088 for job status
-
-MapReduce App Architecture
-----------------------------
-![MapReduce App Architecture](/docs/map-reduce.png)
