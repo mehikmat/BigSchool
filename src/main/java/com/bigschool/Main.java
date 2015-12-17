@@ -19,6 +19,16 @@ import java.util.Properties;
  *  files written using Hadoop. The disadvantage is the 5GB limit on file size
  *  imposed by s3. For this reason it is not suitable as a replacement for HDFS
  *  (which has support for very large files).
+ * The S3 native filesystem was introduced in Hadoop 0.18.0 *  
+ * 
+ * S3A (URI scheme: s3a)
+ * -----------------------
+ *  A successor to the S3 Native, s3n fs, the S3a: system uses Amazon's libraries to interact with S3.
+ *  This allows S3a to support larger files (no more 5GB limit), higher performance operations and more.
+ *  The filesystem is intended to be a replacement for/successor to S3 Native:
+ *  all objects accessible from s3n:// URLs should also be accessible from s3a simply by replacing the URL schema
+ *  The S3A filesystem was introduced in Hadoop 2.6.0
+ * 
  *
  *  S3 Block FileSystem (URI scheme: s3)
  *  ------------------------------------
@@ -29,6 +39,7 @@ import java.util.Properties;
  *  an existing bucket containing files, or write other files to the same bucket.
  *  The files stored by this filesystem can be larger than 5GB, but they are not
  *  interoperable with other s3 tools.
+ *  The S3 block filesystem was introduced in Hadoop 0.10.0
  *
  *
  *  Note
