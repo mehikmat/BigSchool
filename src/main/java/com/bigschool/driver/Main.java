@@ -11,6 +11,21 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 
 /**
+ * 3 types of joins:
+ *  Reduce-Side joins (easiest),
+ *  Map-Side joins and
+ *  Memory-Backed Join
+ *For this we need
+ *  Composite key
+ *  Composite key comparator(for secondary sorting)
+ *  Natural key partitioner
+ *  Natural key grouping comparator
+ *  Mapper
+ *  Reducer
+ *
+ *  http://codingjunkie.net/mapreduce-reduce-joins/
+ *
+ *
  * @author Hikmat Dhamee
  * @email me.hemant.available@gmail.com
  */
