@@ -1,14 +1,13 @@
 package com.bigschool.driver;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 
 /**
  * 3 types of joins:
@@ -32,23 +31,33 @@ import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Configuration configuration = new Configuration();
-        Job job = Job.getInstance(configuration);
+        Splitter splitter = Splitter.on('/');
+        StringBuilder filePaths = new StringBuilder();
 
-        // set key types
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        Configuration config = new Configuration();
+        config.set("keyIndex", "0");
+        config.set("separator", ",");
 
-        job.setInputFormatClass(TextInputFormat.class);
-        job.setOutputFormatClass(SequenceFileOutputFormat.class);
+        for(int i = 0; i< args.length - 1; i++) {
+            String fileName = Iterables.getLast(splitter.split(args[i]));
+            config.set(fileName, Integer.toString(i+1));
+            filePaths.append(args[i]).append(",");
+        }
 
-        FileInputFormat.setInputPaths(job, new Path(args[1]));
-        FileOutputFormat.setOutputPath(job, new Path(args[2]));
-
+        filePaths.setLength(filePaths.length() - 1);
+        Job job = Job.getInstance(config, "ReduceSideJoin");
         job.setJarByClass(Main.class);
-        job.setJobName("MRv2-Process");
 
-        //Submit the job to the cluster and wait for it to finish
-        job.waitForCompletion(true);
+        FileInputFormat.addInputPaths(job, filePaths.toString());
+        FileOutputFormat.setOutputPath(job, new Path(args[args.length-1]));
+
+        job.setMapperClass(JoiningMapper.class);
+        job.setReducerClass(JoiningReducer.class);
+        job.setPartitionerClass(TaggedKeyPartitioner.class);
+        job.setGroupingComparatorClass(TaggedKeyGroupingComparator.class);
+        job.setOutputKeyClass(TaggedKey.class);
+        job.setOutputValueClass(Text.class);
+
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
