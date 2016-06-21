@@ -13,4 +13,4 @@ hadoop fs -put ./data/input.txt input/
 mvn clean package
 
 #Run Job
-hadoop jar target/BigSchool.jar input/input.txt output/output.txt
+hadoop jar target/BigSchoolCascading-1.0.jar input/input.txt output/output.txt
