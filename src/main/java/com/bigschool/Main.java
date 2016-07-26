@@ -20,8 +20,8 @@ import cascading.tuple.Fields;
 public class Main {
 
     public void run() {
-        Tap src1 = new Hfs(new TextDelimited(new Fields("a","b","c","d"),";"), "input/input.txt", SinkMode.KEEP);
-        Tap snk1 = new Hfs(new TextDelimited(new Fields("a","b","c","d"),";"), "output1", SinkMode.REPLACE);
+        Tap src1 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), "input/input.txt", SinkMode.KEEP);
+        Tap snk1 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), "output1", SinkMode.REPLACE);
 
         Tap src2 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), "output1", SinkMode.REPLACE);
 
