@@ -7,11 +7,14 @@ import cascading.flow.hadoop.HadoopFlowConnector;
 import cascading.pipe.Every;
 import cascading.pipe.GroupBy;
 import cascading.pipe.Pipe;
+import cascading.property.AppProps;
 import cascading.scheme.hadoop.TextDelimited;
 import cascading.tap.SinkMode;
 import cascading.tap.Tap;
 import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
+
+import java.util.Properties;
 
 /**
  * @author Hikmat Dhamee
@@ -35,8 +38,14 @@ public class Main {
         pipe2 = new GroupBy(pipe2,new Fields("a"));
         pipe2 = new Every(pipe2,new CountBuffer(),Fields.RESULTS);
 
-        Flow flow1 = new HadoopFlowConnector().connect(src1, snk1, pipe1);
-        Flow flow2 = new HadoopFlowConnector().connect(src2, snk2, pipe2);
+        Properties properties = new Properties();
+        properties.setProperty(AppProps.APP_ID,"CascadDemo");
+        properties.setProperty(AppProps.APP_FRAMEWORKS,"Cascading");
+        properties.setProperty(AppProps.APP_NAME,"Multi-Flow-Cascade");
+        properties.setProperty(AppProps.APP_TAGS,"Team:Engineering");
+
+        Flow flow1 = new HadoopFlowConnector(properties).connect("Flow-1",src1, snk1, pipe1);
+        Flow flow2 = new HadoopFlowConnector(properties).connect("Flow-2",src2, snk2, pipe2);
 
 
         CascadeConnector connector = new CascadeConnector();
