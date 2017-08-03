@@ -1,20 +1,13 @@
 package com.bigschool;
 
-import cascading.cascade.Cascade;
-import cascading.cascade.CascadeConnector;
 import cascading.flow.Flow;
 import cascading.flow.hadoop.HadoopFlowConnector;
-import cascading.pipe.Every;
-import cascading.pipe.GroupBy;
 import cascading.pipe.Pipe;
-import cascading.property.AppProps;
 import cascading.scheme.hadoop.TextDelimited;
 import cascading.tap.SinkMode;
 import cascading.tap.Tap;
 import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
-
-import java.util.Properties;
 
 /**
  * @author Hikmat Dhamee
@@ -22,39 +15,17 @@ import java.util.Properties;
  */
 public class Main {
 
-    public void run() {
-        Tap src1 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), "input/input.txt", SinkMode.KEEP);
-        Tap snk1 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), "output1", SinkMode.REPLACE);
-
-        Tap src2 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), "output1", SinkMode.REPLACE);
-
-        Tap snk2 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), "output2", SinkMode.REPLACE);
-
-        Pipe pipe1 = new Pipe("copy1");
-        pipe1 = new GroupBy(pipe1,new Fields("a"));
-        pipe1 = new Every(pipe1,new CountBuffer(),Fields.RESULTS);
-
-        Pipe pipe2 = new Pipe("copy2");
-        pipe2 = new GroupBy(pipe2,new Fields("a"));
-        pipe2 = new Every(pipe2,new CountBuffer(),Fields.RESULTS);
-
-        Properties properties = new Properties();
-        properties.setProperty(AppProps.APP_ID,"CascadDemo");
-        properties.setProperty(AppProps.APP_FRAMEWORKS,"Cascading");
-        properties.setProperty(AppProps.APP_NAME,"Multi-Flow-Cascade");
-        properties.setProperty(AppProps.APP_TAGS,"Team:Engineering");
-
-        Flow flow1 = new HadoopFlowConnector(properties).connect("Flow-1",src1, snk1, pipe1);
-        Flow flow2 = new HadoopFlowConnector(properties).connect("Flow-2",src2, snk2, pipe2);
-
-
-        CascadeConnector connector = new CascadeConnector();
-        Cascade cascade = connector.connect( flow1, flow2);
-        cascade.complete();
-
-    }
-
     public static void main(String[] args) {
-        new Main().run();
+        if(args.length < 3){
+            System.out.println("Insufficient arguments: jobName input output");
+            System.exit(1);
+        }
+        Tap src1 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), args[1], SinkMode.KEEP);
+        Tap snk1 = new Hfs(new TextDelimited(new Fields("a","b","c"),";"), args[2], SinkMode.REPLACE);
+
+        Pipe pipe = new Pipe("test");
+
+        Flow flow = new HadoopFlowConnector().connect(args[0],src1, snk1, pipe);
+        flow.complete();
     }
 }
