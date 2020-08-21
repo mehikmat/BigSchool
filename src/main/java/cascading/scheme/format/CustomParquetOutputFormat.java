@@ -16,6 +16,7 @@ import org.apache.parquet.hadoop.metadata.CompressionCodecName;
 
 import java.io.IOException;
 
+//copy of DeprecatedParquetOutputFormat
 public class CustomParquetOutputFormat<Void, V> extends org.apache.hadoop.mapred.FileOutputFormat<java.lang.Void, V> {
 
         protected ParquetOutputFormat<V> realOutputFormat = new ParquetOutputFormat<V>();
