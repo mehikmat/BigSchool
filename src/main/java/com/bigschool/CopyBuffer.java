@@ -13,9 +13,9 @@ import java.util.Iterator;
  * @author Hikmat Dhamee
  * @email me.hemant.available@gmail.com
  */
-public class CountBuffer extends BaseOperation implements Buffer {
+public class CopyBuffer extends BaseOperation implements Buffer {
 
-    public CountBuffer() {
+    public CopyBuffer() {
         super(Fields.ARGS);
     }
 
@@ -23,7 +23,7 @@ public class CountBuffer extends BaseOperation implements Buffer {
     @Override
     public void operate(FlowProcess flowProcess, BufferCall bufferCall) {
         Iterator<TupleEntry> iterator = bufferCall.getArgumentsIterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             TupleEntry entry = new TupleEntry(iterator.next());
             bufferCall.getOutputCollector().add(entry);
         }
