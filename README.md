@@ -34,3 +34,15 @@ REFERENCES:
 - http://www.cascading.org/support/compatibility/
 - http://www.cascading.org
 - http://docs.cascading.io/driven/1.0/getting-started/index.html
+
+before
+physical_type: BYTE_ARRAY
+logical_type: None
+converted_type (legacy): NONE
+
+
+after logical type:
+physical_type: BYTE_ARRAY
+logical_type: String
+converted_type (legacy): UTF8
+

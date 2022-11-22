@@ -11,49 +11,11 @@ import org.apache.parquet.hadoop.ParquetOutputFormat;
 import org.apache.parquet.hadoop.ParquetRecordWriter;
 import org.apache.parquet.hadoop.codec.CodecConfig;
 import org.apache.parquet.hadoop.mapred.DeprecatedParquetOutputFormat;
-import org.apache.parquet.hadoop.mapred.MapredParquetOutputCommitter;
 import org.apache.parquet.hadoop.metadata.CompressionCodecName;
 
 import java.io.IOException;
 
-//copy of DeprecatedParquetOutputFormat
-public class CustomParquetOutputFormat<Void, V> extends org.apache.hadoop.mapred.FileOutputFormat<java.lang.Void, V> {
-
-        protected ParquetOutputFormat<V> realOutputFormat = new ParquetOutputFormat<V>();
-
-        public static void setWriteSupportClass(Configuration configuration, Class<?> writeSupportClass) {
-                configuration.set(ParquetOutputFormat.WRITE_SUPPORT_CLASS, writeSupportClass.getName());
-        }
-
-        public static void setBlockSize(Configuration configuration, int blockSize) {
-                configuration.setInt(ParquetOutputFormat.BLOCK_SIZE, blockSize);
-        }
-
-        public static void setPageSize(Configuration configuration, int pageSize) {
-                configuration.setInt(ParquetOutputFormat.PAGE_SIZE, pageSize);
-        }
-
-        public static void setCompression(Configuration configuration, CompressionCodecName compression) {
-                configuration.set(ParquetOutputFormat.COMPRESSION, compression.name());
-        }
-
-        public static void setEnableDictionary(Configuration configuration, boolean enableDictionary) {
-                configuration.setBoolean(ParquetOutputFormat.ENABLE_DICTIONARY, enableDictionary);
-        }
-
-        public static void setAsOutputFormat(JobConf jobConf) {
-                jobConf.setOutputFormat(DeprecatedParquetOutputFormat.class);
-                jobConf.setOutputCommitter(MapredParquetOutputCommitter.class);
-        }
-
-        private static Path getDefaultWorkFile(JobConf conf, String name, String extension) {
-                String file = getUniqueName(conf, name) + extension;
-                return new Path(getWorkOutputPath(conf), file);
-        }
-
-        private CompressionCodecName getCodec(final JobConf conf) {
-                return CodecConfig.from(conf).getCodec();
-        }
+public class CustomParquetOutputFormat <Void, V> extends DeprecatedParquetOutputFormat<V> {
 
         @Override
         public RecordWriter<java.lang.Void, V> getRecordWriter(FileSystem fs,
@@ -61,6 +23,7 @@ public class CustomParquetOutputFormat<Void, V> extends org.apache.hadoop.mapred
                 return new CustomParquetOutputFormat.RecordWriterWrapper(realOutputFormat, fs, conf, name, progress);
         }
 
+        //it's needed here as it's private in super class
         private class RecordWriterWrapper implements RecordWriter<java.lang.Void, V> {
                 private boolean recordExists = false;
                 private Path file;
@@ -109,5 +72,14 @@ public class CustomParquetOutputFormat<Void, V> extends org.apache.hadoop.mapred
                                 throw new IOException(e);
                         }
                 }
+        }
+
+        private CompressionCodecName getCodec(final JobConf conf) {
+                return CodecConfig.from(conf).getCodec();
+        }
+
+        private static Path getDefaultWorkFile(JobConf conf, String name, String extension) {
+                String file = getUniqueName(conf, name) + extension;
+                return new Path(getWorkOutputPath(conf), file);
         }
 }
