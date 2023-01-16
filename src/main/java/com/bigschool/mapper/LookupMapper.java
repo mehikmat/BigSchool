@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
     Map<String, Integer> offsetIndexMap = new HashMap<>();
     RandomAccessFile raf;
