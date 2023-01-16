@@ -21,8 +21,6 @@ import java.util.List;
  *  1. Sorting
  *  2. Filtering
  *
- * @author Hikmat Dhamee
- * @email me.hemant.available@gmail.com
  */
 public class MapReduceOperationTest {
     MapReduceDriver<LongWritable, Text, Text, IntWritable, Text, IntWritable> mapReduceDriver;
