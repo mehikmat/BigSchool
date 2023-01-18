@@ -1,6 +1,7 @@
 package com.bigschool.driver;
 
 import com.bigschool.driver.apllications.DistributedCacheApplication;
+import com.bigschool.driver.apllications.OffsetIndexApplication;
 import com.bigschool.driver.apllications.StudentInfoIndexApplication;
 import com.bigschool.driver.apllications.StudentInfoProcessApplication;
 
@@ -24,5 +25,8 @@ public class Main {
 
         if (args[0].equalsIgnoreCase("distributed-cache"))
             System.exit(new DistributedCacheApplication().runApplication(args));
+
+        if (args[0].equalsIgnoreCase("offset-index"))
+            System.exit(new OffsetIndexApplication().runApplication(args));
     }
 }
