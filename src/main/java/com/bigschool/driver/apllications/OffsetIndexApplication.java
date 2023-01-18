@@ -65,7 +65,7 @@ public class OffsetIndexApplication implements HadoopApplication {
         // creates an object of Scanner
         Scanner input = new Scanner(Files.newInputStream(Paths.get(MASTER_PATH)));
 
-        Integer offset = 0;
+        Long offset = 0l;
         while (input.hasNext()) {
             String line = input.nextLine();
             String[] parts = line.split("\\|");
