@@ -9,8 +9,8 @@ import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import static com.bigschool.driver.apllications.DistributedCacheApplication.MASTER_PATH;
 import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFSET_PATH;
@@ -19,18 +19,24 @@ import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFS
  *
  */
 public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
-    Map<String, Long> offsetIndexMap = new HashMap<>(3184104);
+    Map<String, Long> offsetIndexMap = new HashMap<>(3184105);
     RandomAccessFile raf;
 
     @Override
     protected void setup(Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
         super.setup(context);
-        List<String> lines = Files.readAllLines(Paths.get(OFFSET_PATH));
+        // creates an object of Scanner
+        Scanner input = new Scanner(Files.newInputStream(Paths.get(OFFSET_PATH)));
 
-        for(String line : lines){
+        while (input.hasNext()) {
+            String line = input.nextLine();
+            System.out.println(">> reading kv " + line);
             String[] part = line.split("\\|");
+
             offsetIndexMap.put(part[0], Long.parseLong(part[1]));
         }
+        // closes the scanner
+        input.close();
 
         raf = new RandomAccessFile(MASTER_PATH, "r");
     }
