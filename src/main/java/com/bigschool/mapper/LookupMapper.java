@@ -48,7 +48,11 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
 
         if (offsetIndexMap.containsKey(row[0])) {
             raf.seek(offsetIndexMap.get(row[0]));
-            context.write(new Text(raf.readLine()), new Text(row[0]));
+            try {
+                context.write(new Text(raf.readLine()), new Text(row[0]));
+            } catch (Exception ex) {
+                System.out.println("v: " + raf.readLine() + " k:" + row[0]);
+            }
         }
     }
 
