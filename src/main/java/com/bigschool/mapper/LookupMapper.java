@@ -53,6 +53,7 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
                 context.write(new Text(line), new Text(row[0]));
             } catch (Exception ex) {
                 System.out.println("v: " + line + " k:" + row[0]);
+                throw ex;
             }
         }
     }

@@ -84,6 +84,9 @@ public class DistributedCacheApplication implements HadoopApplication {
         //job.setInputFormatClass(SequenceFileInputFormat.class);
 
         job.setOutputFormatClass(TextOutputFormat.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(Text.class);
+
         // for sequence file output
         //job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
