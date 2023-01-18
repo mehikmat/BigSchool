@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.bigschool.driver.apllications.DistributedCacheApplication.MASTER_PATH;
+import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFSET_PATH;
+
 /**
  * Sorting Comparators
  * ==================
@@ -70,7 +73,7 @@ public class OffsetIndexApplication implements HadoopApplication {
             offset += line.length() + 1;
         }
 
-        Files.write(Paths.get("/usr/hadoop/offsetIndex.csv"), map, StandardOpenOption.WRITE);
+        Files.write(Paths.get(OFFSET_PATH), map, StandardOpenOption.WRITE);
     }
 
     @Override
@@ -79,7 +82,7 @@ public class OffsetIndexApplication implements HadoopApplication {
         Date startTime = new Date();
         System.out.println("Job started: " + startTime);
 
-        createIndexFile("/usr/hadoop/masterTable.csv");
+        createIndexFile(MASTER_PATH);
 
         Date endTime = new Date();
         System.out.println("Job ended: " + endTime);

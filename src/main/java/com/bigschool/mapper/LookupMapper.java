@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.bigschool.driver.apllications.DistributedCacheApplication.MASTER_PATH;
+import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFSET_PATH;
+
 /**
  *
  */
@@ -22,14 +25,14 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
     @Override
     protected void setup(Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
         super.setup(context);
-        List<String> lines = Files.readAllLines(Paths.get("/usr/hadoop/offsetIndex.csv"));
+        List<String> lines = Files.readAllLines(Paths.get(OFFSET_PATH));
 
         for(String line : lines){
             String[] part = line.split(",");
             offsetIndexMap.put(part[0], Integer.parseInt(part[1]));
         }
 
-        raf = new RandomAccessFile("/usr/hadoop/masterTable.csv","r");
+        raf = new RandomAccessFile(MASTER_PATH, "r");
     }
 
     @Override

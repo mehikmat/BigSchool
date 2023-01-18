@@ -1,18 +1,13 @@
 package com.bigschool.driver.apllications;
 
 import com.bigschool.mapper.LookupMapper;
-import com.bigschool.mapper.StudentInfoMapper;
-import com.bigschool.partitioner.BigSchoolPartitioner;
-import com.bigschool.reducer.StudentInfoReducer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.io.IOException;
@@ -69,6 +64,8 @@ import java.util.Date;
  * @email me.hemant.available@gmail.com
  */
 public class DistributedCacheApplication implements HadoopApplication {
+    public static final String MASTER_PATH = "/home/hadoop/masterTable.csv";
+    public static final String OFFSET_PATH = "/home/hadoop/offsetIndex.csv";
 
     @Override
     public int runApplication(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
