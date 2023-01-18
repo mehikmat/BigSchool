@@ -13,17 +13,6 @@
         <hadoop.version>3.2.1</hadoop.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>http://repo2.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>cloudera</id>
-            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
