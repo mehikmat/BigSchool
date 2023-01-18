@@ -64,8 +64,8 @@ import java.util.Date;
  * @email me.hemant.available@gmail.com
  */
 public class DistributedCacheApplication implements HadoopApplication {
-    public static final String MASTER_PATH = "/home/hadoop/masterTable.csv";
-    public static final String OFFSET_PATH = "/home/hadoop/offsetIndex.csv";
+    public static final String MASTER_PATH = "/mnt/masterTable.csv";
+    public static final String OFFSET_PATH = "/mnt/offsetIndex.csv";
 
     @Override
     public int runApplication(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
