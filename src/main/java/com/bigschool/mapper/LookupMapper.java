@@ -30,7 +30,6 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
 
         while (input.hasNext()) {
             String line = input.nextLine();
-            System.out.println(">> reading kv " + line);
             String[] part = line.split("\\|");
 
             offsetIndexMap.put(part[0], Long.parseLong(part[1]));
@@ -46,15 +45,14 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
             throws IOException, InterruptedException {
         String[] row = value.toString().split("\\|");
 
+        Text k = new Text();
+        Text v = new Text();
+
         if (offsetIndexMap.containsKey(row[0])) {
             raf.seek(offsetIndexMap.get(row[0]));
-            String line = raf.readLine();
-            try {
-                context.write(new Text(line), new Text(row[0]));
-            } catch (Exception ex) {
-                System.out.println("v: " + line + " k:" + row[0]);
-                throw ex;
-            }
+            k.set(raf.readLine());
+            v.set(row[0]);
+            context.write(k, v);
         }
     }
 
