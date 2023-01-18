@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Scanner;
 
 import static com.bigschool.driver.apllications.DistributedCacheApplication.MASTER_PATH;
 import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFSET_PATH;
@@ -63,17 +62,19 @@ import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFS
 public class OffsetIndexApplication implements HadoopApplication {
 
     public void createIndexFile(String fileName) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(fileName));
-        List<String> map = new ArrayList<>();
+        // creates an object of Scanner
+        Scanner input = new Scanner(Files.newInputStream(Paths.get(MASTER_PATH)));
 
         Integer offset = 0;
-        for (String line : lines) {
-            String[] part = line.split(",");
-            map.add(part[0] + "," + offset);
-            offset += line.length() + 1;
-        }
+        while (input.hasNext()) {
+            String line = input.nextLine();
+            String[] parts = line.split("|");
 
-        Files.write(Paths.get(OFFSET_PATH), map, StandardOpenOption.WRITE);
+            offset += line.length() + 1;
+            Files.write(Paths.get(OFFSET_PATH), (parts[0] + "|" + offset + "\n").getBytes(), StandardOpenOption.APPEND);
+        }
+        // closes the scanner
+        input.close();
     }
 
     @Override
