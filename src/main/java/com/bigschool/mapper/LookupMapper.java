@@ -19,7 +19,7 @@ import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFS
  *
  */
 public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
-    Map<String, Integer> offsetIndexMap = new HashMap<>();
+    Map<String, Long> offsetIndexMap = new HashMap<>();
     RandomAccessFile raf;
 
     @Override
@@ -29,7 +29,7 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
 
         for(String line : lines){
             String[] part = line.split("\\|");
-            offsetIndexMap.put(part[0], Integer.parseInt(part[1]));
+            offsetIndexMap.put(part[0], Long.parseLong(part[1]));
         }
 
         raf = new RandomAccessFile(MASTER_PATH, "r");
