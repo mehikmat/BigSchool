@@ -28,7 +28,7 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
         List<String> lines = Files.readAllLines(Paths.get(OFFSET_PATH));
 
         for(String line : lines){
-            String[] part = line.split("|");
+            String[] part = line.split("\\|");
             offsetIndexMap.put(part[0], Integer.parseInt(part[1]));
         }
 
@@ -38,7 +38,7 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
     @Override
     protected void map(LongWritable key, Text value, Context context)
             throws IOException, InterruptedException {
-        String[] row = value.toString().split("|");
+        String[] row = value.toString().split("\\|");
 
         if (offsetIndexMap.containsKey(row[0])) {
             raf.seek(offsetIndexMap.get(row[0]));

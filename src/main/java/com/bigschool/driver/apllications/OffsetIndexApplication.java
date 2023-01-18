@@ -68,7 +68,7 @@ public class OffsetIndexApplication implements HadoopApplication {
         Integer offset = 0;
         while (input.hasNext()) {
             String line = input.nextLine();
-            String[] parts = line.split("|");
+            String[] parts = line.split("\\|");
 
             offset += line.length() + 1;
             Files.write(Paths.get(OFFSET_PATH), (parts[0] + "|" + offset + "\n").getBytes(), StandardOpenOption.APPEND);
