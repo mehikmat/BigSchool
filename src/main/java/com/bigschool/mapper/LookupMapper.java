@@ -22,6 +22,9 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
     Map<String, Long> offsetIndexMap = new HashMap<>(3184105);
     RandomAccessFile raf;
 
+    Text k = new Text();
+    Text v = new Text();
+
     @Override
     protected void setup(Mapper<LongWritable, Text, Text, Text>.Context context) throws IOException, InterruptedException {
         super.setup(context);
@@ -44,9 +47,6 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
     protected void map(LongWritable key, Text value, Context context)
             throws IOException, InterruptedException {
         String[] row = value.toString().split("\\|");
-
-        Text k = new Text();
-        Text v = new Text();
 
         if (offsetIndexMap.containsKey(row[0])) {
             raf.seek(offsetIndexMap.get(row[0]));
