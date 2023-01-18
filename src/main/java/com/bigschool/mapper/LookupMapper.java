@@ -19,7 +19,7 @@ import static com.bigschool.driver.apllications.DistributedCacheApplication.OFFS
  *
  */
 public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
-    Map<String, Long> offsetIndexMap = new HashMap<>();
+    Map<String, Long> offsetIndexMap = new HashMap<>(3184104);
     RandomAccessFile raf;
 
     @Override
