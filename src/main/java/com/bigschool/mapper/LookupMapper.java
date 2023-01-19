@@ -49,8 +49,9 @@ public class LookupMapper extends Mapper<LongWritable, Text, Text, Text> {
         String[] row = value.toString().split("\\|");
 
         if (offsetIndexMap.containsKey(row[0])) {
-            raf.seek(offsetIndexMap.get(row[0]));
-            k.set(raf.readLine());
+            //raf.seek(offsetIndexMap.get(row[0]));
+            k.set(offsetIndexMap.get(row[0]).toString());
+            //k.set(raf.readLine());
             v.set(row[0]);
             context.write(k, v);
         }
