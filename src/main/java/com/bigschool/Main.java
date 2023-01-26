@@ -14,6 +14,9 @@ import cascading.tap.partition.DelimitedPartition;
 import cascading.tuple.Fields;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 /**
  * @author Hikmat Dhamee
@@ -22,13 +25,16 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-      /*  StringBuilder builder = new StringBuilder();
-        for(int i=0; i< 1000000; i++){
-            builder.append((i +"\n"));
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i <= 30000000; i++) {
+            builder.append((i + "\n"));
+            if (i % 1000000 == 0) {
+                Files.write(Paths.get("data/input" + i + ".txt"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                builder.setLength(0);
+            }
         }
-        Files.write(Paths.get("data/input.txt"), builder.toString().getBytes(), StandardOpenOption.APPEND);*/
 
-        new Main().run();
+        //new Main().run();
     }
 
     public void run() {
