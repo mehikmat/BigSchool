@@ -2,30 +2,23 @@ package com.bigschool;
 
 import cascading.flow.FlowProcess;
 import cascading.operation.BaseOperation;
-import cascading.operation.Buffer;
-import cascading.operation.BufferCall;
+import cascading.operation.Function;
+import cascading.operation.FunctionCall;
 import cascading.tuple.Fields;
-import cascading.tuple.TupleEntry;
+import cascading.tuple.Tuple;
 
-import java.util.Iterator;
+import java.util.Random;
 
-/**
- * @author Hikmat Dhamee
- * @email me.hemant.available@gmail.com
- */
-public class CountBuffer extends BaseOperation implements Buffer {
+public class CountBuffer extends BaseOperation implements Function {
+    Random random = new Random();
+    int limit = 5;
 
-    public CountBuffer() {
-        super(Fields.ARGS);
+    public CountBuffer(Fields newFields) {
+        super(newFields);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void operate(FlowProcess flowProcess, BufferCall bufferCall) {
-        Iterator<TupleEntry> iterator = bufferCall.getArgumentsIterator();
-        while (iterator.hasNext()){
-            TupleEntry entry = new TupleEntry(iterator.next());
-            bufferCall.getOutputCollector().add(entry);
-        }
+    public void operate(FlowProcess flowProcess, FunctionCall functionCall) {
+        functionCall.getOutputCollector().add(new Tuple(random.nextInt(limit)));
     }
 }
