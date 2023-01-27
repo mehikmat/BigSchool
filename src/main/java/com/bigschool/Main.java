@@ -38,7 +38,7 @@ public class Main {
             }
         }
 
-        new Main().run();
+        //new Main().run();
     }
 
     public void run() {
