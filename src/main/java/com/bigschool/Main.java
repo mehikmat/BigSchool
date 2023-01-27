@@ -18,8 +18,17 @@ import cascading.tap.hadoop.Hfs;
 import cascading.tap.hadoop.PartitionTap;
 import cascading.tap.partition.DelimitedPartition;
 import cascading.tuple.Fields;
+import cascading.tuple.TupleEntry;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * @author Hikmat Dhamee
@@ -61,7 +70,6 @@ public class Main {
         Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output1", SinkMode.REPLACE);
 
         Pipe pipe1 = new Pipe("copy1");
-        pipe1 = new Each(pipe1, new CountBuffer(new Fields("b")), Fields.ALL);
         pipe1 = new GroupBy(pipe1, new Fields("a"));
         pipe1 = new Every(pipe1, new CountBufferA());
 
@@ -71,10 +79,37 @@ public class Main {
     }
 
     public class CountBufferA extends BaseOperation implements Buffer {
+        Random random = new Random();
 
         @Override
         public void operate(FlowProcess flowProcess, BufferCall bufferCall) {
+            String memberId = bufferCall.getGroup().getTuple().toString().replace("\"", "");
+            try {
+                Configuration conf = new Configuration();
+                FileSystem fs = FileSystem.get(conf);
 
+                OutputStream out1 = fs.create(new Path(buildSplitOutputPathWithRecordType(memberId, "Medical")), true);
+                BufferedWriter br1 = new BufferedWriter(new OutputStreamWriter(out1));
+
+                Iterator<TupleEntry> rows = bufferCall.getArgumentsIterator();
+                while (rows.hasNext()) {
+                    TupleEntry argument = rows.next();
+                    br1.write("\"" + argument.getTuple().toString("\"|\"", false) + "\"");
+                    br1.newLine();
+                }
+                br1.flush();
+                br1.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException("Error while writing data of memberId: " + memberId + " StackTrace: " + e.getLocalizedMessage());
+            }
+        }
+
+        private String buildSplitOutputPathWithRecordType(String memberId, String recordType) {
+            System.out.println("memberDataHDFSPathForCa-------> " + "memberDataHDFSPathForCa");
+            return "memberDataHDFSPathForCa" + "/" + recordType + "/" + random.nextInt(10) +
+                    "/" + memberId +
+                    "/" + memberId + "_" + recordType + ".csv";
         }
     }
 }
