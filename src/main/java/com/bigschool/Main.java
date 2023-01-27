@@ -55,7 +55,7 @@ public class Main {
     public void run() {
         Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "data", SinkMode.KEEP);
         Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output1", SinkMode.REPLACE);
-        Tap snk1 = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 1200);
+        Tap snk1 = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 600);
 
         Pipe pipe1 = new Pipe("copy1");
         pipe1 = new Each(pipe1, new CountBuffer(new Fields("b")), Fields.ALL);
