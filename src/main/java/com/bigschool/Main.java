@@ -13,11 +13,7 @@ import cascading.tap.hadoop.PartitionTap;
 import cascading.tap.partition.DelimitedPartition;
 import cascading.tuple.Fields;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 /**
  * @author Hikmat Dhamee
@@ -26,7 +22,7 @@ import java.nio.file.StandardOpenOption;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        StringBuilder builder = new StringBuilder();
+        /*StringBuilder builder = new StringBuilder();
         for (int i = 1; i <= 30000000; i++) {
             builder.append((i + "\n"));
             if (i % 10000 == 0) {
@@ -36,15 +32,15 @@ public class Main {
                 Files.write(Paths.get("data/input" + i + ".txt"), builder.toString().getBytes(), StandardOpenOption.APPEND);
                 builder.setLength(0);
             }
-        }
+        }*/
 
-        //new Main().run();
+        new Main().run();
     }
 
     public void run() {
         Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "data", SinkMode.KEEP);
         Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output1", SinkMode.REPLACE);
-        Tap snk1 = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 10000);
+        Tap snk1 = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 5000);
 
         Pipe pipe1 = new Pipe("copy1");
         pipe1 = new Each(pipe1, new CountBuffer(new Fields("b")), Fields.ALL);
