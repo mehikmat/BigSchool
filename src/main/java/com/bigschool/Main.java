@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -82,7 +83,11 @@ public class Main {
         flowDef.addSource(pipe3, src3);
         flowDef.addTailSink(merge, snk);
 
-        FlowConnector flowConnector = new HadoopFlowConnector();
+        Properties properties = new Properties();
+        properties.setProperty("mapreduce.map.log.level", "ERROR");
+        properties.setProperty("mapreduce.reduce.log.level", "ERROR");
+
+        FlowConnector flowConnector = new HadoopFlowConnector(properties);
         flowConnector.connect(flowDef).complete();
     }
 
