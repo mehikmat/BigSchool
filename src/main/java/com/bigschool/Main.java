@@ -23,10 +23,10 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -37,19 +37,21 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        /*StringBuilder builder = new StringBuilder();
-        for (int i = 1; i <= 30000000; i++) {
-            builder.append((i + "\n"));
-            if (i % 10000 == 0) {
-                if (!new File("data/input" + i + ".txt").exists()) {
-                    new File("data/input" + i + ".txt").createNewFile();
+        if (args[0].equals("generate")) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 1; i <= 30000000; i++) {
+                builder.append((i + "\n"));
+                if (i % 10000 == 0) {
+                    if (!new File("data/input" + i + ".txt").exists()) {
+                        new File("data/input" + i + ".txt").createNewFile();
+                    }
+                    Files.write(Paths.get("data/input" + i + ".txt"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                    builder.setLength(0);
                 }
-                Files.write(Paths.get("data/input" + i + ".txt"), builder.toString().getBytes(), StandardOpenOption.APPEND);
-                builder.setLength(0);
             }
-        }*/
-
-        new Main().run();
+        } else {
+            new Main().run();
+        }
     }
 
     public void run() {
