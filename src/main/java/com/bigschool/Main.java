@@ -7,10 +7,7 @@ import cascading.flow.hadoop.HadoopFlowConnector;
 import cascading.operation.BaseOperation;
 import cascading.operation.Buffer;
 import cascading.operation.BufferCall;
-import cascading.pipe.Each;
-import cascading.pipe.Every;
-import cascading.pipe.GroupBy;
-import cascading.pipe.Pipe;
+import cascading.pipe.*;
 import cascading.scheme.hadoop.TextDelimited;
 import cascading.tap.SinkMode;
 import cascading.tap.Tap;
@@ -42,10 +39,18 @@ public class Main {
             for (int i = 1; i <= 30000000; i++) {
                 builder.append((i + "\n"));
                 if (i % 10000 == 0) {
-                    if (!new File("data/input" + i + ".txt").exists()) {
-                        new File("data/input" + i + ".txt").createNewFile();
+                    if (!new File("Medical/part-" + i + ".csv").exists()) {
+                        new File("Medical/part-" + i + ".csv").createNewFile();
                     }
-                    Files.write(Paths.get("data/input" + i + ".txt"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                    if (!new File("Eligibility/part-" + i + ".csv").exists()) {
+                        new File("Eligibility/part-" + i + ".csv").createNewFile();
+                    }
+                    if (!new File("Pharmacy/part-" + i + ".csv").exists()) {
+                        new File("Pharmacy/part-" + i + ".csv").createNewFile();
+                    }
+                    Files.write(Paths.get("Medical/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("Eligibility/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("Pharmacy/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
                     builder.setLength(0);
                 }
             }
@@ -55,11 +60,16 @@ public class Main {
     }
 
     public void run() {
-        Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "data", SinkMode.KEEP);
+        Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "Eligibility", SinkMode.KEEP);
+        Tap src2 = new Hfs(new TextDelimited(new Fields("a"), ";"), "Medical", SinkMode.KEEP);
+        Tap src3 = new Hfs(new TextDelimited(new Fields("a"), ";"), "Pharmacy", SinkMode.KEEP);
         Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output1", SinkMode.REPLACE);
         Tap snk1 = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 600);
 
-        Pipe pipe1 = new Pipe("copy1");
+        Pipe pipe1 = new Pipe("src1");
+        Pipe pipe2 = new Pipe("src2");
+        Pipe pipe3 = new Pipe("src3");
+        pipe1 = new Merge(pipe1, pipe2, pipe3);
         pipe1 = new Each(pipe1, new CountBuffer(new Fields("b")), Fields.ALL);
 
         FlowConnector flowConnector = new HadoopFlowConnector();

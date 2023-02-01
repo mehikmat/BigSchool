@@ -6,12 +6,10 @@ import cascading.operation.Function;
 import cascading.operation.FunctionCall;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
-
-import java.util.Random;
+import cascading.tuple.TupleEntry;
 
 public class CountBuffer extends BaseOperation implements Function {
-    Random random = new Random();
-    int limit = 5;
+    int limit = 6;
 
     public CountBuffer(Fields newFields) {
         super(newFields);
@@ -19,6 +17,7 @@ public class CountBuffer extends BaseOperation implements Function {
 
     @Override
     public void operate(FlowProcess flowProcess, FunctionCall functionCall) {
-        functionCall.getOutputCollector().add(new Tuple(random.nextInt(limit)));
+        TupleEntry entry = functionCall.getArguments();
+        functionCall.getOutputCollector().add(new Tuple(entry.getString("a").hashCode() % limit));
     }
 }
