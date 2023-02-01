@@ -1,6 +1,5 @@
 package com.bigschool;
 
-import cascading.flow.Flow;
 import cascading.flow.FlowConnector;
 import cascading.flow.FlowDef;
 import cascading.flow.FlowProcess;
@@ -56,6 +55,8 @@ public class Main {
                     builder.setLength(0);
                 }
             }
+        } else if (args[0].equals("merged")) {
+            new Main().runMerged();
         } else {
             new Main().run();
         }
@@ -91,17 +92,35 @@ public class Main {
         flowConnector.connect(flowDef).complete();
     }
 
-    public void run1() {
-        Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "data", SinkMode.KEEP);
-        Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output1", SinkMode.REPLACE);
+    public void runMerged() {
+        Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "input/Eligibility", SinkMode.KEEP);
+        Tap src2 = new Hfs(new TextDelimited(new Fields("a"), ";"), "input/Medical", SinkMode.KEEP);
+        Tap src3 = new Hfs(new TextDelimited(new Fields("a"), ";"), "input/Pharmacy", SinkMode.KEEP);
 
-        Pipe pipe1 = new Pipe("copy1");
-        pipe1 = new GroupBy(pipe1, new Fields("a"));
-        pipe1 = new Every(pipe1, new CountBufferA());
+        Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output", SinkMode.REPLACE);
+        Tap snk = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 600);
 
-        FlowConnector flowConnector = new HadoopFlowConnector();
-        Flow flow1 = flowConnector.connect("Flow-1", src1, snkHfs, pipe1);
-        flow1.complete();
+        Pipe pipe1 = new Pipe("src1");
+        Pipe pipe2 = new Pipe("src2");
+        Pipe pipe3 = new Pipe("src3");
+
+        Pipe merge = new Merge(pipe1, pipe2, pipe3);
+
+        merge = new GroupBy(merge, new Fields("a"));
+        merge = new Every(merge, new CountBufferA());
+
+        FlowDef flowDef = new FlowDef();
+        flowDef.addSource(pipe1, src1);
+        flowDef.addSource(pipe2, src2);
+        flowDef.addSource(pipe3, src3);
+        flowDef.addTailSink(merge, snk);
+
+        Properties properties = new Properties();
+        properties.setProperty("mapreduce.map.log.level", "ERROR");
+        properties.setProperty("mapreduce.reduce.log.level", "ERROR");
+
+        FlowConnector flowConnector = new HadoopFlowConnector(properties);
+        flowConnector.connect(flowDef).complete();
     }
 
     public class CountBufferA extends BaseOperation implements Buffer {
@@ -114,7 +133,7 @@ public class Main {
                 Configuration conf = new Configuration();
                 FileSystem fs = FileSystem.get(conf);
 
-                OutputStream out1 = fs.create(new Path(buildSplitOutputPathWithRecordType(memberId, "Medical")), true);
+                OutputStream out1 = fs.create(new Path(buildSplitOutputPathWithRecordType(memberId)), true);
                 BufferedWriter br1 = new BufferedWriter(new OutputStreamWriter(out1));
 
                 Iterator<TupleEntry> rows = bufferCall.getArgumentsIterator();
@@ -131,11 +150,10 @@ public class Main {
             }
         }
 
-        private String buildSplitOutputPathWithRecordType(String memberId, String recordType) {
+        private String buildSplitOutputPathWithRecordType(String memberId) {
             System.out.println("memberDataHDFSPathForCa-------> " + "memberDataHDFSPathForCa");
-            return "memberDataHDFSPathForCa" + "/" + recordType + "/" + random.nextInt(10) +
-                    "/" + memberId +
-                    "/" + memberId + "_" + recordType + ".csv";
+            return "memberDataHDFSPathForCa/" + random.nextInt(7) +
+                    "/" + memberId + ".csv";
         }
     }
 }
