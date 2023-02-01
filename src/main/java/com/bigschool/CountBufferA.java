@@ -43,7 +43,6 @@ public class CountBufferA extends BaseOperation implements Buffer {
     }
 
     private String buildSplitOutputPathWithRecordType(String memberId, int parent) {
-        System.out.println("memberDataHDFSPathForCa-------> " + "memberDataHDFSPathForCa");
         return "memberDataHDFSPathForCa/" + parent +
                 "/" + memberId + ".csv";
     }
