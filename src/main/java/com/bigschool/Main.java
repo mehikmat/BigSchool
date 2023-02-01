@@ -127,11 +127,12 @@ public class Main {
         @Override
         public void operate(FlowProcess flowProcess, BufferCall bufferCall) {
             String memberId = bufferCall.getGroup().getTuple().toString().replace("\"", "");
+            int parent = memberId.hashCode() % 7;
             try {
                 Configuration conf = new Configuration();
                 FileSystem fs = FileSystem.get(conf);
 
-                OutputStream out1 = fs.create(new Path(buildSplitOutputPathWithRecordType(memberId)), true);
+                OutputStream out1 = fs.create(new Path(buildSplitOutputPathWithRecordType(memberId, parent)), true);
                 BufferedWriter br1 = new BufferedWriter(new OutputStreamWriter(out1));
 
                 Iterator<TupleEntry> rows = bufferCall.getArgumentsIterator();
@@ -148,9 +149,9 @@ public class Main {
             }
         }
 
-        private String buildSplitOutputPathWithRecordType(String memberId) {
+        private String buildSplitOutputPathWithRecordType(String memberId, int parent) {
             System.out.println("memberDataHDFSPathForCa-------> " + "memberDataHDFSPathForCa");
-            return "memberDataHDFSPathForCa/" + (memberId.hashCode() % 7) +
+            return "memberDataHDFSPathForCa/" + parent +
                     "/" + memberId + ".csv";
         }
     }
