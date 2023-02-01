@@ -26,7 +26,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.Random;
 
 /**
  * @author Hikmat Dhamee
@@ -124,7 +123,6 @@ public class Main {
     }
 
     public class CountBufferA extends BaseOperation implements Buffer {
-        Random random = new Random();
 
         @Override
         public void operate(FlowProcess flowProcess, BufferCall bufferCall) {
@@ -152,7 +150,7 @@ public class Main {
 
         private String buildSplitOutputPathWithRecordType(String memberId) {
             System.out.println("memberDataHDFSPathForCa-------> " + "memberDataHDFSPathForCa");
-            return "memberDataHDFSPathForCa/" + random.nextInt(7) +
+            return "memberDataHDFSPathForCa/" + (memberId.hashCode() % 7) +
                     "/" + memberId + ".csv";
         }
     }
