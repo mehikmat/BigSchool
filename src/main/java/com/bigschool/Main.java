@@ -2,6 +2,7 @@ package com.bigschool;
 
 import cascading.flow.Flow;
 import cascading.flow.FlowConnector;
+import cascading.flow.FlowDef;
 import cascading.flow.FlowProcess;
 import cascading.flow.hadoop.HadoopFlowConnector;
 import cascading.operation.BaseOperation;
@@ -39,18 +40,18 @@ public class Main {
             for (int i = 1; i <= 30000000; i++) {
                 builder.append((i + "\n"));
                 if (i % 10000 == 0) {
-                    if (!new File("Medical/part-" + i + ".csv").exists()) {
-                        new File("Medical/part-" + i + ".csv").createNewFile();
+                    if (!new File("input/Medical/part-" + i + ".csv").exists()) {
+                        new File("input/Medical/part-" + i + ".csv").createNewFile();
                     }
-                    if (!new File("Eligibility/part-" + i + ".csv").exists()) {
-                        new File("Eligibility/part-" + i + ".csv").createNewFile();
+                    if (!new File("input/Eligibility/part-" + i + ".csv").exists()) {
+                        new File("input/Eligibility/part-" + i + ".csv").createNewFile();
                     }
-                    if (!new File("Pharmacy/part-" + i + ".csv").exists()) {
-                        new File("Pharmacy/part-" + i + ".csv").createNewFile();
+                    if (!new File("input/Pharmacy/part-" + i + ".csv").exists()) {
+                        new File("input/Pharmacy/part-" + i + ".csv").createNewFile();
                     }
-                    Files.write(Paths.get("Medical/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
-                    Files.write(Paths.get("Eligibility/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
-                    Files.write(Paths.get("Pharmacy/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("input/Medical/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("input/Eligibility/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
+                    Files.write(Paths.get("input/Pharmacy/part-" + i + ".csv"), builder.toString().getBytes(), StandardOpenOption.APPEND);
                     builder.setLength(0);
                 }
             }
@@ -60,21 +61,29 @@ public class Main {
     }
 
     public void run() {
-        Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "Eligibility", SinkMode.KEEP);
-        Tap src2 = new Hfs(new TextDelimited(new Fields("a"), ";"), "Medical", SinkMode.KEEP);
-        Tap src3 = new Hfs(new TextDelimited(new Fields("a"), ";"), "Pharmacy", SinkMode.KEEP);
-        Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output1", SinkMode.REPLACE);
-        Tap snk1 = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 600);
+        Tap src1 = new Hfs(new TextDelimited(new Fields("a"), ";"), "input/Eligibility", SinkMode.KEEP);
+        Tap src2 = new Hfs(new TextDelimited(new Fields("a"), ";"), "input/Medical", SinkMode.KEEP);
+        Tap src3 = new Hfs(new TextDelimited(new Fields("a"), ";"), "input/Pharmacy", SinkMode.KEEP);
+
+        Hfs snkHfs = new Hfs(new TextDelimited(new Fields("a"), ";"), "output", SinkMode.REPLACE);
+        Tap snk = new PartitionTap(snkHfs, new DelimitedPartition(new Fields("b", "a")), SinkMode.REPLACE, false, 600);
 
         Pipe pipe1 = new Pipe("src1");
         Pipe pipe2 = new Pipe("src2");
         Pipe pipe3 = new Pipe("src3");
-        pipe1 = new Merge(pipe1, pipe2, pipe3);
-        pipe1 = new Each(pipe1, new CountBuffer(new Fields("b")), Fields.ALL);
+
+        Pipe merge = new Merge(pipe1, pipe2, pipe3);
+
+        merge = new Each(merge, new CountBuffer(new Fields("b")), Fields.ALL);
+
+        FlowDef flowDef = new FlowDef();
+        flowDef.addSource(pipe1, src1);
+        flowDef.addSource(pipe2, src2);
+        flowDef.addSource(pipe3, src3);
+        flowDef.addSink(merge, snk);
 
         FlowConnector flowConnector = new HadoopFlowConnector();
-        Flow flow1 = flowConnector.connect("Flow-1", src1, snk1, pipe1);
-        flow1.complete();
+        flowConnector.connect(flowDef).complete();
     }
 
     public void run1() {
