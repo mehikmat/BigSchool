@@ -80,7 +80,7 @@ public class Main {
         flowDef.addSource(pipe1, src1);
         flowDef.addSource(pipe2, src2);
         flowDef.addSource(pipe3, src3);
-        flowDef.addSink(merge, snk);
+        flowDef.addTailSink(merge, snk);
 
         FlowConnector flowConnector = new HadoopFlowConnector();
         flowConnector.connect(flowDef).complete();
