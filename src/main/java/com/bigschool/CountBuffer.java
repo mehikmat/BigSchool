@@ -9,7 +9,7 @@ import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
 
 public class CountBuffer extends BaseOperation implements Function {
-    int limit = 6;
+    int limit = 7;
 
     public CountBuffer(Fields newFields) {
         super(newFields);
