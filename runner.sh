@@ -3,11 +3,11 @@
 echo "mvn clean ............"
 mvn clean package -DskipTests
 echo "MK dirs ............"
+rm -rf input
 mkdir -p input/Eligibility
 mkdir -p input/Medical
 mkdir -p input/Pharmacy
 echo "run generate data ............"
-rm -rf input
 java -jar target/BigSchoolCascading-1.0.jar generate
 echo "Copy data to hdfs ............"
 hadoop fs -rmr input
