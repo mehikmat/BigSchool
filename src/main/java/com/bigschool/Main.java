@@ -107,6 +107,8 @@ public class Main {
         flowDef.addTailSink(merge, snk);
 
         Properties properties = new Properties();
+        properties.setProperty("file.replication", "0");
+        properties.setProperty("dfs.replication", "0");
         properties.setProperty("mapreduce.job.jvm.numtasks", "-1");
         properties.setProperty("mapreduce.map.log.level", "ERROR");
         properties.setProperty("mapreduce.reduce.log.level", "ERROR");
