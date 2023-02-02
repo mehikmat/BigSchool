@@ -20,7 +20,7 @@ public class CountBufferA extends BaseOperation implements Buffer {
     @Override
     public void operate(FlowProcess flowProcess, BufferCall bufferCall) {
         String memberId = bufferCall.getGroup().getTuple().toString().replace("\"", "");
-        int parent = memberId.hashCode() % 7;
+        int parent = Math.abs(memberId.hashCode()) % 30;
         try {
             Configuration conf = new Configuration();
             FileSystem fs = FileSystem.get(conf);
