@@ -24,18 +24,29 @@
         </dependency>
         <dependency>
             <groupId>net.wensel</groupId>
-            <artifactId>cascading-local</artifactId>
-            <version>4.5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>net.wensel</groupId>
-            <artifactId>cascading-hadoop2-io</artifactId>
-            <version>4.1.0</version>
+            <artifactId>cascading-hadoop2-common</artifactId>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>net.wensel</groupId>
             <artifactId>cascading-hadoop2-mr1</artifactId>
             <version>4.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-core</artifactId>
+            <version>3.2.1</version>
         </dependency>
     </dependencies>
     <build>
