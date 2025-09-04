@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.bigschool</groupId>
     <artifactId>BigSchoolCascading</artifactId>
     <version>1.0</version>
@@ -12,60 +11,32 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>maven.org</id>
-            <url>http://repo2.maven.org/maven2/</url>
-        </repository>
-        <!--add the cascading and drive plugin repository-->
-        <repository>
-            <id>conjars.org</id>
-            <url>http://conjars.org/repo</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-
         <dependency>
-            <groupId>cascading</groupId>
+            <groupId>net.wensel</groupId>
             <artifactId>cascading-core</artifactId>
-            <version>2.6.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cascading</groupId>
-            <artifactId>cascading-test</artifactId>
-            <version>2.0.8</version>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
-            <groupId>cascading</groupId>
+            <groupId>net.wensel</groupId>
             <artifactId>cascading-platform</artifactId>
-            <version>2.6.0</version>
+            <version>4.5.2</version>
         </dependency>
         <dependency>
-            <groupId>cascading</groupId>
+            <groupId>net.wensel</groupId>
             <artifactId>cascading-local</artifactId>
-            <version>2.6.0</version>
+            <version>4.5.2</version>
         </dependency>
         <dependency>
-            <groupId>cascading</groupId>
-            <artifactId>cascading-xml</artifactId>
-            <version>2.6.0</version>
+            <groupId>net.wensel</groupId>
+            <artifactId>cascading-hadoop2-io</artifactId>
+            <version>4.1.0</version>
         </dependency>
-
         <dependency>
-            <groupId>cascading</groupId>
-            <artifactId>cascading-hadoop</artifactId>
-            <version>2.6.0</version>
+            <groupId>net.wensel</groupId>
+            <artifactId>cascading-hadoop2-mr1</artifactId>
+            <version>4.1.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.1</version>
-        </dependency>
-
-
     </dependencies>
     <build>
         <plugins>
@@ -110,9 +81,8 @@
                 <version>2.3.2</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <optimize>true</optimize>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>

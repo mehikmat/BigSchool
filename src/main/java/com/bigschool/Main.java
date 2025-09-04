@@ -1,7 +1,7 @@
 package com.bigschool;
 
 import cascading.flow.Flow;
-import cascading.flow.hadoop.HadoopFlowConnector;
+import cascading.flow.hadoop2.Hadoop2MR1FlowConnector;
 import cascading.pipe.Pipe;
 import cascading.scheme.hadoop.TextDelimited;
 import cascading.tap.SinkMode;
@@ -9,10 +9,6 @@ import cascading.tap.Tap;
 import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
 
-/**
- * @author Hikmat Dhamee
- * @email me.hemant.available@gmail.com
- */
 public class Main {
 
     public static void main(String[] args) {
@@ -25,7 +21,7 @@ public class Main {
 
         Pipe pipe = new Pipe("test");
 
-        Flow flow = new HadoopFlowConnector().connect(args[0],src1, snk1, pipe);
+        Flow flow = new Hadoop2MR1FlowConnector().connect(args[0],src1, snk1, pipe);
         flow.complete();
     }
 }
